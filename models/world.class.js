@@ -5,20 +5,45 @@ class World {
         new Chicken(),
         new Chicken(),
     ];
-    ctx;
+    clouds = [
+        new Cloud()
+    ];
+    backgroundObjects = [
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0)
+    ];
+    canvas;
+    ctx; // kann man auch context nennen
 
 
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
+        this.canvas = canvas; //1. canvas in world.js 2. canvas in game.js
         this.draw();
     }
 
 
     draw() {
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        for (let i = 0; i < this.enemies.length; i++) {
-            this.ctx.drawImage(this.enemies[i].img, this.enemies[i].x, this.enemies[i].y, this.enemies[i].width, this.enemies[i].height);
-        }
-        console.log('world.draw()');
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // durch die obere Variable greifen wir auf das canvas in game.js zu
+
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.backgroundObjects);
+
+        // Erstell die Objecte im canvas
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    addObjectsToMap(objects) {
+        objects.forEach(object => {
+            this.addToMap(object);
+        });
+    }
+
+    addToMap(movableObject) {
+        this.ctx.drawImage(movableObject.img, movableObject.x, movableObject.y, movableObject.width, movableObject.height);
     }
 }
