@@ -29,12 +29,12 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // durch die obere Variable greifen wir auf das canvas in game.js zu
 
         this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.enemies);
-        this.addObjectsToMap(this.clouds);
         
 
-        // Erstell die Objecte im canvas
+        // Erstell die Objecte im canvas (je nach leistungstärke der graka)
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
