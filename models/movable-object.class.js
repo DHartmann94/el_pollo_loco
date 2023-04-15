@@ -1,7 +1,7 @@
 class MovableObject {
     x = 120;
     y = 280;
-    img;
+    img; // hier werden die Bilder reingealden und angezeigt.
     height = 150;
     width = 100;
     imageCache = {};
@@ -20,7 +20,7 @@ class MovableObject {
         imageArray.forEach ((path) => {
             let img = new Image();
             img.src = path;
-            this.imageCache[path] = path;
+            this.imageCache[path] = img;
         })
 
     }
