@@ -1,10 +1,13 @@
 class MovableObject {
     x = 120;
     y = 280;
-    img; // hier werden die Bilder reingealden und angezeigt.
     height = 150;
     width = 100;
-    imageCache = {};
+    speed; // animations geschwindigkeit 
+
+    img; // hier wird das Bild reingeladen und angezeigt.
+    imageCache = {}; // hier werden die animate bilder reingeladen.
+    currentImage = 0; // wählt das Bild in der animate function aus.
 
 
     loadImage(path) {
@@ -30,6 +33,8 @@ class MovableObject {
     }
 
     moveLeft() {
-        console.log('Moving left');
+        setInterval( () => {
+            this.x -= this.speed;
+        }, 1000 / 60);
     }
 }

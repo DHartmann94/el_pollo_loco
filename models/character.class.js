@@ -8,9 +8,10 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-23.png',
         'img/2_character_pepe/2_walk/W-24.png',
         'img/2_character_pepe/2_walk/W-25.png',
-        'img/2_character_pepe/2_walk/W-26.png',
+        'img/2_character_pepe/2_walk/W-26.png'
     ];
-    currentImage = 0;
+    world; // damit können wir auf die Variablen auf unsere Welt zugreifen (keyboard)
+
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -19,6 +20,7 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    // animate könnte man auch in mo definieren?
     animate() {
         setInterval(() => {
             let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.

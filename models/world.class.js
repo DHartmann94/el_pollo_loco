@@ -16,14 +16,20 @@ class World {
     ];
     canvas;
     ctx; // kann man auch context nennen
+    keyboard;
 
 
-    constructor(canvas) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas; //1. canvas in world.js 2. canvas in game.js
+        this.keyboard = keyboard;
         this.draw();
+        this.setWorld();
     }
 
+    setWorld() {
+        this.character.world = this.world; // verknüft die world (wegen keyboard) mit character.
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // durch die obere Variable greifen wir auf das canvas in game.js zu
