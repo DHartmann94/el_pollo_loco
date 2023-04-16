@@ -28,7 +28,7 @@ class World {
     }
 
     setWorld() {
-        this.character.world = this.world; // verknüft die world (wegen keyboard) mit character.
+        this.character.world = this; // verknüft die world (wegen keyboard) mit character.
     }
 
     draw() {

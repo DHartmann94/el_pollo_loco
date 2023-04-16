@@ -30,7 +30,6 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event) => {
-    console.log(event);
     if (event.keyCode == 38) {
         keyboard.up = false;
     }

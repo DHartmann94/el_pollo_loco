@@ -22,13 +22,15 @@ class Character extends MovableObject {
 
     // animate könnte man auch in mo definieren?
     animate() {
-        setInterval(() => {
-            let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
-            let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
-            this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
-            this.currentImage++;
-        }, 100);
-    }
+            setInterval(() => {
+                if(this.world.keyboard.right) {
+                    let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
+                    let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
+                    this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
+                    this.currentImage++;
+                }
+            }, 100);
+        }
 
     jump() {
 
