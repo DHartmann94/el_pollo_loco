@@ -1,4 +1,32 @@
+@font-face {
+    font-family: 'zabras';
+    src: url('fonts/zabars.ttf') format('truetype');
+}  
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
 body {
+    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    background: url('img/canyon_bg.png') no-repeat center center fixed;
+    background-size: cover;
     margin: 0px;
     display: flex;
     flex-direction: column;
@@ -7,4 +35,10 @@ body {
 
 canvas {
     background-color: black;
+}
+
+h1 {
+    font-size: 64px;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
