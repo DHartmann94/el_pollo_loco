@@ -2,6 +2,7 @@ class Character extends MovableObject {
     y = 175;
     height = 260;
     width = 125;
+    speed = 10;
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -22,15 +23,27 @@ class Character extends MovableObject {
 
     // animate könnte man auch in mo definieren?
     animate() {
-            setInterval(() => {
-                if(this.world.keyboard.right) {
-                    let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
-                    let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
-                    this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
-                    this.currentImage++;
-                };
-            }, 100);
-        }
+        setInterval(() => {
+            if (this.world.keyboard.right) {
+                this.x += this.speed;
+                this.otherDirection = false;
+            }
+            if (this.world.keyboard.left) {
+                this.x -= this.speed;
+                this.otherDirection = true;
+            }
+        }, 1000 / 60);
+
+        setInterval(() => {
+            if (this.world.keyboard.right || this.world.keyboard.left) {
+                //walk animation
+                let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
+                let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
+                this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
+                this.currentImage++;
+            };
+        }, 50);
+    }
 
     jump() {
 

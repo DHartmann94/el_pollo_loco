@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'zabras';
+    font-family: 'zabars';
     src: url('fonts/zabars.ttf') format('truetype');
 }  
 
@@ -24,7 +24,7 @@
   }
 
 body {
-    font-family: 'zabras', Arial, Helvetica, sans-serif;
+    font-family: 'zabars', Arial, Helvetica, sans-serif;
     background: url('img/canyon_bg.png') no-repeat center center fixed;
     background-size: cover;
     margin: 0px;

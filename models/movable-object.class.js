@@ -8,6 +8,7 @@ class MovableObject {
     img; // hier wird das Bild reingeladen und angezeigt.
     imageCache = {}; // hier werden die animate bilder reingeladen.
     currentImage = 0; // wählt das Bild in der animate function aus.
+    otherDirection = false; // spiegelt bei der animation das Bild.
 
 
     loadImage(path) {
