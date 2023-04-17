@@ -24,25 +24,34 @@ class Character extends MovableObject {
     // animate könnte man auch in mo definieren?
     animate() {
         setInterval(() => {
-            if (this.world.keyboard.right) {
-                this.x += this.speed;
-                this.otherDirection = false;
-            }
-            if (this.world.keyboard.left) {
-                this.x -= this.speed;
-                this.otherDirection = true;
-            }
+            this.moveCharacter();
         }, 1000 / 60);
 
         setInterval(() => {
-            if (this.world.keyboard.right || this.world.keyboard.left) {
-                //walk animation
-                let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
-                let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
-                this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
-                this.currentImage++;
-            };
+            this.showCharacterAnimation();
         }, 50);
+    }
+
+    moveCharacter() {
+        if (this.world.keyboard.right) {
+            this.x += this.speed;
+            this.otherDirection = false;
+        }
+        if (this.world.keyboard.left) {
+            this.x -= this.speed;
+            this.otherDirection = true;
+        }
+        this.world.camera_x = -this.x; // move the camera.
+    }
+
+    showCharacterAnimation() {
+        if (this.world.keyboard.right || this.world.keyboard.left) {
+            //walk animation
+            let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
+            let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
+            this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
+            this.currentImage++;
+        };
     }
 
     jump() {
