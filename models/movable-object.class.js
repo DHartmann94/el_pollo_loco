@@ -29,6 +29,13 @@ class MovableObject {
 
     }
 
+    playAnimation(images) {
+        let index = this.currentImage % images.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
+        let path = images[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
+        this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
+        this.currentImage++;
+    }
+
     moveRight() {
         console.log('Moving right');
     }

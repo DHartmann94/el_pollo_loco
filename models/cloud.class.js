@@ -1,9 +1,9 @@
 class Cloud extends MovableObject {
-    x = 0 + Math.random() * 500; // lässt die clouds random spawnen (vorher im constructor)
+    x = 50 + Math.random() * 2500; // lässt die clouds random spawnen (vorher im constructor)
     y = 50;
     height = 250;
     width = 400;
-    speed = 0.15;
+    speed = 0.12 + Math.random() * 0.05;
 
 
     constructor() {

@@ -29,7 +29,7 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            this.showCharacterAnimation();
+            this.playCharacterAnimation();
         }, 50);
     }
 
@@ -48,13 +48,9 @@ class Character extends MovableObject {
         this.world.camera_x = -this.x + 100; // Moves the camera with the Character / + 100 to the right (character)
     }
 
-    showCharacterAnimation() {
+    playCharacterAnimation() {
         if (this.world.keyboard.right || this.world.keyboard.left) {
-            //walk animation
-            let index = this.currentImage % this.IMAGES_WALKING.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
-            let path = this.IMAGES_WALKING[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
-            this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
-            this.currentImage++;
+            this.playAnimation(this.IMAGES_WALKING);
         };
     }
 
