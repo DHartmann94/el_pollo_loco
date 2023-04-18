@@ -11,6 +11,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ];
+    walking_sound = new Audio("audio/running.mp3");
     world; // damit können wir auf unsere Welt Variablen zugreifen (keyboard)
 
 
@@ -33,15 +34,18 @@ class Character extends MovableObject {
     }
 
     moveCharacter() {
-        if (this.world.keyboard.right) {
+        this.walking_sound.pause();
+        if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {
             this.x += this.speed;
             this.otherDirection = false;
+            this.walking_sound.play();
         }
-        if (this.world.keyboard.left) {
+        if (this.world.keyboard.left && this.x > 0) {
             this.x -= this.speed;
             this.otherDirection = true;
+            this.walking_sound.play();
         }
-        this.world.camera_x = -this.x; // move the camera.
+        this.world.camera_x = -this.x + 100; // Moves the camera with the Character / + 100 to the right (character)
     }
 
     showCharacterAnimation() {
