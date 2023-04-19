@@ -17,13 +17,15 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
-        // animate könnte man auch in mo definieren?
-        animate() {
-            this.moveLeft(); // MovableObject
+    // animate könnte man auch in mo definieren?
+    animate() {
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 60);
 
-            setInterval(() => {
-                this.playAnimation(this.IMAGES_WALKING); // MovableObject
-            }, 100);
-        }
+        setInterval(() => {
+            this.playAnimation(this.IMAGES_WALKING); // MovableObject
+        }, 100);
+    }
 
 }
