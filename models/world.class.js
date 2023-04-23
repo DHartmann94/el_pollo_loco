@@ -52,7 +52,10 @@ class World {
             this.mirrorImage(movableObj);
         }
 
-        this.ctx.drawImage(movableObj.img, movableObj.x, movableObj.y, movableObj.width, movableObj.height);
+        movableObj.draw(this.ctx);
+        movableObj.drawFrame(this.ctx);
+        
+
 
         if (movableObj.otherDirection) {
             this.mirrorImageBack(movableObj);
