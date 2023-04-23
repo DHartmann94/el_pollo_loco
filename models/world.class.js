@@ -56,7 +56,6 @@ class World {
         movableObj.drawFrame(this.ctx);
         
 
-
         if (movableObj.otherDirection) {
             this.mirrorImageBack(movableObj);
         }

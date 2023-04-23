@@ -61,12 +61,18 @@ class MovableObject {
     }
 
     drawFrame(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = '5';
-        ctx.strokeStyle = 'blue';
-        //koordinaten wor die quadrate platziert werden sollen.
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
+        if(this.selectedMovableObjects()) {
+            ctx.beginPath();
+            ctx.lineWidth = '5';
+            ctx.strokeStyle = 'blue';
+            //koordinaten wor die quadrate platziert werden sollen.
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    selectedMovableObjects() {
+        return this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin;
     }
 
     moveRight() {
