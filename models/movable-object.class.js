@@ -33,8 +33,8 @@ class MovableObject {
     }
 
     /**
-     * 
-     * @param {Array} imageArray -
+     * Adds the "path" of the image-arrays to the imageCache-JSON.
+     * @param {Array} imageArray -An array consisting of animation images.
      */
     loadImages(imageArray) {
         imageArray.forEach((path) => {
@@ -45,6 +45,10 @@ class MovableObject {
 
     }
 
+    /**
+     * Goes through the JSON-imageCache and displays the selected images.
+     * @param {Array} images -An array consisting of animation images.
+     */
     playAnimation(images) {
         let index = this.currentImage % images.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
         let path = images[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
