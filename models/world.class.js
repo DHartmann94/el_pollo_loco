@@ -13,6 +13,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
     }
 
     setWorld() {
@@ -54,7 +55,7 @@ class World {
 
         movableObj.draw(this.ctx);
         movableObj.drawFrame(this.ctx);
-        
+
 
         if (movableObj.otherDirection) {
             this.mirrorImageBack(movableObj);
@@ -80,5 +81,15 @@ class World {
         // verhindert das die Bilder die sich nicht spiegeln soll das auch nicht machen.
         this.ctx.restore();
         movableObj.x = movableObj.x * -1; // invertiert die x-Achse
+    }
+
+    checkCollisions() {
+        setInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                if(this.character.isColliding(enemy)) {
+                    console.log('Collision:', enemy);
+                }
+            });
+        }, 200);
     }
 }

@@ -1,6 +1,8 @@
 class MovableObject {
     x = 120;
     y = 280;
+    offsetY;
+    offsetX;
     height = 150;
     width = 100;
     speed; // animations geschwindigkeit 
@@ -61,7 +63,7 @@ class MovableObject {
     }
 
     drawFrame(ctx) {
-        if(this.selectedMovableObjects()) {
+        if (this.selectedMovableObjects()) {
             ctx.beginPath();
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'blue';
@@ -73,6 +75,25 @@ class MovableObject {
 
     selectedMovableObjects() {
         return this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin;
+    }
+
+   /* isColliding(obj) {
+        return (
+            this.x + this.width >= obj.x &&
+            this.x <= obj.x + obj.width &&
+            this.y + this.offsetY + this.height >= obj.y &&
+            this.y + this.offsetY <= obj.y + obj.height
+            //&& obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+        );
+    }*/
+
+    isColliding(mo) {
+        return (
+            this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height
+        );
     }
 
     moveRight() {
