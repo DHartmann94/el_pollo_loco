@@ -1,6 +1,6 @@
 class Coin extends MovableObject {
-    x = 400 + Math.random() * 1200;
-    y = 150 - Math.random() * 160;
+    posX = 400 + Math.random() * 1200;
+    posY = 150 - Math.random() * 160;
     height = 170;
     width = 170;
     IMAGES_COINS = [
@@ -9,7 +9,7 @@ class Coin extends MovableObject {
     ];
 
     constructor() {
-        super().loadImage("img/8_coin/coin_1.png"); // Verwenden Sie das Bild Ihrer Wahl für die Flasche
+        super().loadImage("img/8_coin/coin_1.png");
         this.loadImages(this.IMAGES_COINS); // übergabe der bilder in die loadImages function(mo)
         this.animate();
     }

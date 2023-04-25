@@ -70,7 +70,7 @@ class World {
         this.ctx.save(); // einstellung vom context werden gespeichert.
         this.ctx.translate(movableObj.width, 0); // Bild wird gedreht.
         this.ctx.scale(-1, 1); // Bild wird ein Stück verschoben (richtig positioniert)
-        movableObj.x = movableObj.x * -1; // invertiert die x-Achse (character wird sonst auf die andere seite teleportiert.)
+        movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse (character wird sonst auf die andere seite teleportiert.)
     }
 
     /**
@@ -80,7 +80,7 @@ class World {
     mirrorImageBack(movableObj) {
         // verhindert das die Bilder die sich nicht spiegeln soll das auch nicht machen.
         this.ctx.restore();
-        movableObj.x = movableObj.x * -1; // invertiert die x-Achse
+        movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse
     }
 
     checkCollisions() {

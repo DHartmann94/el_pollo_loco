@@ -1,6 +1,6 @@
 class Endboss extends MovableObject {
-    x = 2000;
-    y = 50;
+    posX = 2000;
+    posY = 50;
     height = 400;
     width = 400;
     IMAGES_ALERT = [

@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    y = 170;
+    posY = 170;
     height = 260;
     width = 125;
     speed = 10;
@@ -75,13 +75,13 @@ class Character extends MovableObject {
 
     moveCharacter() {
         this.walking_sound.pause();
-        if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {
+        if (this.world.keyboard.right && this.posX < this.world.level.level_end_x) {
             this.stopMovementTimer = 0;
             this.moveRight();
             this.otherDirection = false;
             this.walking_sound.play();
         }
-        if (this.world.keyboard.left && this.x > 0) {
+        if (this.world.keyboard.left && this.posX > 0) {
             this.stopMovementTimer = 0;
             this.moveLeft();
             this.otherDirection = true;
@@ -93,7 +93,7 @@ class Character extends MovableObject {
             this.jump();
             this.jumping_sound.play();
         }
-        this.world.camera_x = -this.x + 100; // Moves the camera with the Character / + 100 to the right (character)
+        this.world.camera_x = -this.posX + 100; // Moves the camera with the Character / + 100 to the right (character)
     }
 
     playCharacterAnimation() {

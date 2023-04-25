@@ -1,6 +1,6 @@
 class Chicken extends MovableObject {
-    x = 200 + Math.random() * 500; // lässt die chicken random spawnen (vorher im constructor)
-    y = 350;
+    posX = 200 + Math.random() * 500; // lässt die chicken random spawnen (vorher im constructor)
+    posY = 350;
     height = 75;
     width = 75;
     speed = 0.15 + Math.random() * 0.4; // random geschwindigkeit (vorher im constructor)

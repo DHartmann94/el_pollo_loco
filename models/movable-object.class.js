@@ -1,8 +1,6 @@
 class MovableObject {
-    x = 120;
-    y = 280;
-    offsetY;
-    offsetX;
+    posX = 120;
+    posY = 280;
     height = 150;
     width = 100;
     speed; // animations geschwindigkeit 
@@ -19,14 +17,14 @@ class MovableObject {
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
+                this.posY -= this.speedY;
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 25);
     }
 
     isAboveGround() {
-        return this.y < 170; // dort soll das herunterfallen gestoppt werden.
+        return this.posY < 170; // dort soll das herunterfallen gestoppt werden.
     }
 
     loadImage(path) {
@@ -59,7 +57,7 @@ class MovableObject {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height);
     }
 
     drawFrame(ctx) {
@@ -68,7 +66,7 @@ class MovableObject {
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'blue';
             //koordinaten wor die quadrate platziert werden sollen.
-            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.rect(this.posX, this.posY, this.width, this.height);
             ctx.stroke();
         }
     }
@@ -89,19 +87,19 @@ class MovableObject {
 
     isColliding(mo) {
         return (
-            this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height
+            this.posX + this.width > mo.posX &&
+            this.posY + this.height > mo.posY &&
+            this.posX < mo.posX &&
+            this.posY < mo.posY + mo.height
         );
     }
 
     moveRight() {
-        this.x += this.speed;
+        this.posX += this.speed;
     }
 
     moveLeft() {
-        this.x -= this.speed;
+        this.posX -= this.speed;
     }
 
     jump() {
