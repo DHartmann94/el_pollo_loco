@@ -3,6 +3,12 @@ class Coin extends MovableObject {
     posY = 150 - Math.random() * 160;
     height = 170;
     width = 170;
+    offset = {
+        top: 50,
+        right: 50,
+        bottom: 50,
+        left: 50
+    };
     IMAGES_COINS = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'
