@@ -3,6 +3,12 @@ class Character extends MovableObject {
     height = 260;
     width = 125;
     speed = 10;
+    offset = {
+        top: 110,
+        right: 30,
+        bottom: 5,
+        left: 15
+    };
     walking_sound = new Audio("audio/running.mp3");
     jumping_sound = new Audio("audio/jumping.mp3");
     IMAGES_WALKING = [

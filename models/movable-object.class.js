@@ -5,6 +5,13 @@ class MovableObject {
     width = 100;
     speed; // animations geschwindigkeit 
 
+    offset = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    };
+
     speedY = 0; // Fall Geschwindigkeit.
     acceleration = 2.5; // Fall Geschwindigkeit erhöhen
 
@@ -66,8 +73,7 @@ class MovableObject {
             ctx.lineWidth = '5';
             ctx.strokeStyle = 'blue';
             //koordinaten wor die quadrate platziert werden sollen.
-            ctx.rect(this.posX, this.posY, this.width, this.height);
-            ctx.stroke();
+            ctx.strokeRect(this.posX + this.offset.left, this.posY + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.top - this.offset.bottom);
         }
     }
 
@@ -75,24 +81,31 @@ class MovableObject {
         return this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin;
     }
 
-   /* isColliding(obj) {
+    /*isColliding(obj) { //JUNUS
         return (
-            this.x + this.width >= obj.x &&
-            this.x <= obj.x + obj.width &&
-            this.y + this.offsetY + this.height >= obj.y &&
-            this.y + this.offsetY <= obj.y + obj.height
+            this.posX + this.width >= obj.posX &&
+            this.posX <= obj.posX + obj.width &&
+            this.posY + this.offsetY + this.height >= obj.posY &&
+            this.posY + this.offsetY <= obj.posY + obj.height
             //&& obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
         );
     }*/
 
-    isColliding(mo) {
+    isColliding(obj){
+        return this.posX + this.width - this.offset.right > obj.posX + obj.offset.left &&
+        this.posY + this.height - this.offset.bottom > obj.posY + obj.offset.top &&
+        this.posX + this.offset.left < obj.posX + obj.width - obj.offset.right && 
+        this.posY + this.offset.top < obj.posY + obj.height - obj.offset.bottom;
+    }
+
+    /*isColliding(mo) {
         return (
             this.posX + this.width > mo.posX &&
             this.posY + this.height > mo.posY &&
             this.posX < mo.posX &&
             this.posY < mo.posY + mo.height
         );
-    }
+    }*/
 
     moveRight() {
         this.posX += this.speed;
