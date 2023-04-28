@@ -1,4 +1,6 @@
 class BackgroundObject extends MovableObject {
+    posX; // constructor (level1.js)
+    posY; // constructor
     height = 480;
     width = 720;
 

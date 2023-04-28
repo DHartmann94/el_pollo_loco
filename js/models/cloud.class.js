@@ -1,4 +1,5 @@
 class Cloud extends MovableObject {
+    posX; // constructor (level1.js)
     posY = 50;
     height = 250;
     width = 400;

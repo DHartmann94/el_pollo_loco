@@ -1,4 +1,5 @@
 class Chicken extends MovableObject {
+    posX; // constructor (level1.js)
     posY = 350;
     height = 75;
     width = 75;

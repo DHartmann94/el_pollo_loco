@@ -1,10 +1,9 @@
 class MovableObject {
-    posX = 120;
-    posY = 280;
-    height = 150;
-    width = 100;
-    speed; // animations geschwindigkeit 
-
+    posX;
+    posY;
+    height;
+    width;
+    speed; // animations geschwindigkeit
     offset = {
         top: 0,
         right: 0,
@@ -14,6 +13,9 @@ class MovableObject {
 
     speedY = 0; // Fall Geschwindigkeit.
     acceleration = 2.5; // Fall Geschwindigkeit erhöhen
+
+    energy = 100;
+    lastHit = 0;
 
     img; // hier wird das Bild reingeladen und angezeigt.
     imageCache = {}; // hier werden die animate bilder reingeladen.
@@ -70,9 +72,9 @@ class MovableObject {
     drawFrame(ctx) {
         if (this.selectedMovableObjects()) {
             ctx.beginPath();
-            ctx.lineWidth = '5';
+            ctx.lineWidth = '4';
             ctx.strokeStyle = 'blue';
-            //koordinaten wor die quadrate platziert werden sollen.
+            //koordinaten wo die quadrate platziert werden sollen.
             ctx.strokeRect(this.posX + this.offset.left, this.posY + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.top - this.offset.bottom);
         }
     }
@@ -91,21 +93,40 @@ class MovableObject {
         );
     }*/
 
-    isColliding(obj){
+    /*isColliding(mo) {
+    return (
+        this.posX + this.width > mo.posX &&
+        this.posY + this.height > mo.posY &&
+        this.posX < mo.posX &&
+        this.posY < mo.posY + mo.height
+    );
+}*/
+
+    isColliding(obj) {
         return this.posX + this.width - this.offset.right > obj.posX + obj.offset.left &&
-        this.posY + this.height - this.offset.bottom > obj.posY + obj.offset.top &&
-        this.posX + this.offset.left < obj.posX + obj.width - obj.offset.right && 
-        this.posY + this.offset.top < obj.posY + obj.height - obj.offset.bottom;
+            this.posY + this.height - this.offset.bottom > obj.posY + obj.offset.top &&
+            this.posX + this.offset.left < obj.posX + obj.width - obj.offset.right &&
+            this.posY + this.offset.top < obj.posY + obj.height - obj.offset.bottom;
     }
 
-    /*isColliding(mo) {
-        return (
-            this.posX + this.width > mo.posX &&
-            this.posY + this.height > mo.posY &&
-            this.posX < mo.posX &&
-            this.posY < mo.posY + mo.height
-        );
-    }*/
+    hit() {
+        this.energy -= 5;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit; // difference
+        timePassed = timePassed / 1000; // milliseconds
+        return timePassed < 0.5; // dauer der animation
+    }
+
+    isDead() {
+        return this.energy === 0;
+    }
 
     moveRight() {
         this.posX += this.speed;

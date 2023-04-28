@@ -1,4 +1,5 @@
 class SmallChicken extends MovableObject {
+    posX; // constructor (level1.js)
     posY = 360;
     height = 60;
     width = 60;
