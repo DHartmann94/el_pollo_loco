@@ -1,5 +1,5 @@
 class Bottle extends MovableObject {
-  posX = 300 + Math.random() * 1300;
+  posX; // constructor (level1.js)
   posY = 360;
   height = 75;
   width = 75;
@@ -7,10 +7,11 @@ class Bottle extends MovableObject {
     top: 10,
     right: 10,
     bottom: 5,
-    left: 25
+    left: 15
 };
 
-  constructor() {
-    super().loadImage("img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
+  constructor(imagePath, x) {
+    super().loadImage(imagePath);
+    this.posX = x;
   }
 }
