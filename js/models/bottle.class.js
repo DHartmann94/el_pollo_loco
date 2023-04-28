@@ -1,5 +1,5 @@
 class Bottle extends MovableObject {
-  posX = 500 + Math.random() * 800;
+  posX = 300 + Math.random() * 1300;
   posY = 360;
   height = 75;
   width = 75;
@@ -7,7 +7,7 @@ class Bottle extends MovableObject {
     top: 10,
     right: 10,
     bottom: 5,
-    left: 20
+    left: 25
 };
 
   constructor() {
