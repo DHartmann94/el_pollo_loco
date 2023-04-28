@@ -1,9 +1,9 @@
 class SmallChicken extends MovableObject {
     posX; // constructor (level1.js)
-    posY = 360;
-    height = 60;
-    width = 60;
-    speed = 0.4 + Math.random() * 0.4; // random geschwindigkeit (vorher im constructor)
+    posY = 365;
+    height = 55;
+    width = 55;
+    speed = 0.5 + Math.random() * 0.4; // random geschwindigkeit (vorher im constructor)
     offset = {
         top: 5,
         right: 5,
