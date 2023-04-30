@@ -25,7 +25,6 @@ class Chicken extends MovableObject {
         this.posX =  x;
     }
 
-    // animate könnte man auch in mo definieren?
     animate() {
         setInterval(() => {
             this.moveLeft();

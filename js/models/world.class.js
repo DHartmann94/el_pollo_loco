@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    statusBarHealth = new StatusBarHealth();
     level = level1; // enemies, clouds, bg in der level 1 Variable.
     canvas; // um canvas in der ganzen klasse nutzen zu können.
     ctx;
@@ -33,6 +34,7 @@ class World {
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
 
+        this.drawFixedObjetcts();
         this.ctx.translate(-this.camera_x, 0); // schiebt wenn alle Objecte erstellt wurden den CONTEXT wieder nach rechts.
 
         // Erstell die Objecte im canvas (je nach leistungstärke der graka)
@@ -40,6 +42,13 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
+    }
+
+    drawFixedObjetcts() {
+        // --- Space for fiexed Objects --- //
+        this.ctx.translate(-this.camera_x, 0); //Back
+        this.addToMap(this.statusBarHealth);
+        this.ctx.translate(this.camera_x, 0); //Forwards
     }
 
     addObjectsToMap(objects) { // für die arrays
@@ -86,12 +95,30 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if(this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    console.log('Collision:', this.character.energy);
-                }
-            });
+            this.collisionEnemies();
+            this.collissionSmallEnemies();
         }, 200);
+    }
+
+    collisionEnemies() {
+        this.level.enemies.forEach((enemy) => {
+            if(this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.changeStatusBarProgress();
+            }
+        });
+    }
+
+    collissionSmallEnemies() {
+        this.level.smallEnemies.forEach((enemy) => {
+            if(this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.changeStatusBarProgress();
+            }
+        });
+    }
+
+    changeStatusBarProgress() {
+        this.statusBarHealth.setPercentage(this.character.energy);
     }
 }
