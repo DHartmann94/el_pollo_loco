@@ -1,6 +1,6 @@
 class MovableObject extends DrawableObject {
-    speedY = 0; // Fall Geschwindigkeit.
-    acceleration = 2.5; // Fall Geschwindigkeit erhöhen
+    speedY = 0; // case speed
+    acceleration = 2.5; // case increase speed
 
     energy = 100;
     lastHit = 0;

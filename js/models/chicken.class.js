@@ -3,7 +3,7 @@ class Chicken extends MovableObject {
     posY = 350;
     height = 75;
     width = 75;
-    speed = 0.15 + Math.random() * 0.4; // random geschwindigkeit (vorher im constructor)
+    speed = 0.15 + Math.random() * 0.4;
     offset = {
         top: 10,
         right: 10,

@@ -1,9 +1,9 @@
 class DrawableObject {
-    posX;
-    posY;
-    height;
-    width;
-    speed; // animations geschwindigkeit
+    posX; // position canvas
+    posY; // position canvas
+    height; // hight from the images
+    width; // witdh from the images
+    speed; // animation speed
     offset = {
         top: 0,
         right: 0,
@@ -16,6 +16,10 @@ class DrawableObject {
     currentImage = 0; // wählt das Bild in der animate function aus.
 
 
+    /**
+     * Loads an image from the given "file path".
+     * @param {String} path - The "file path" of the image to be loaded.
+     */
     loadImage(path) {
         this.img = new Image(); // Image() existiert bereits in JS
         this.img.src = path;
@@ -33,6 +37,10 @@ class DrawableObject {
         })
     }
 
+    /**
+     * Displays the selected image in the canvas.
+     * @param {Object} ctx - Context (canvas.getContext('2d'))
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height);
     }

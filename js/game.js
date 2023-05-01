@@ -8,7 +8,6 @@ function init() {
     world = new World(canvas, keyboard);
 }
 
-
 window.addEventListener("keydown", (event) => {
     if (event.keyCode === 38) {
         keyboard.up = true;

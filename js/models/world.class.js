@@ -4,10 +4,9 @@ class World {
     statusBarBottle = new StatusBarBottle();
     statusBarCoin = new StatusBarCoin();
     statusBarEndboss = new StatusBarEndboss();
-    statusBarEndbossIcon = new StatusBarEndbossIcon();
     throwableObject = [];
 
-    level = level1; // enemies, clouds, bg in der level 1 Variable.
+    level = level1;
     canvas; // um canvas in der ganzen klasse nutzen zu können.
     ctx;
     camera_x; // Kamera position verschieben.
@@ -59,7 +58,6 @@ class World {
         this.addToMap(this.statusBarBottle);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarEndboss);
-        this.addToMap(this.statusBarEndbossIcon);
         this.ctx.translate(this.camera_x, 0); //Forwards
     }
 
