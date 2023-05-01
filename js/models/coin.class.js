@@ -1,23 +1,25 @@
 class Coin extends MovableObject {
-    posX = 400 + Math.random() * 1200;
-    posY = 150 - Math.random() * 160;
+    posX; // constructor (level1.js)
+    posY = 150 - Math.random() * 140;
     height = 170;
     width = 170;
     offset = {
-        top: 50,
-        right: 50,
-        bottom: 50,
-        left: 50
+        top: 55,
+        right: 55,
+        bottom: 55,
+        left: 55
     };
     IMAGES_COINS = [
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png'
     ];
 
-    constructor() {
+    constructor(x) {
         super().loadImage("img/8_coin/coin_1.png");
-        this.loadImages(this.IMAGES_COINS); // übergabe der bilder in die loadImages function(mo)
+        this.loadImages(this.IMAGES_COINS); // // MovableObject
         this.animate();
+
+        this.posX =  x;
     }
 
 

@@ -19,7 +19,7 @@ class Chicken extends MovableObject {
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
 
-        this.loadImages(this.IMAGES_WALKING); // übergabe der bilder in die loadImages function(mo)
+        this.loadImages(this.IMAGES_WALKING); // MovableObject
         this.animate();
 
         this.posX =  x;

@@ -1,6 +1,6 @@
-class StatusBarHealth extends StatusBar {
-    posX = 10;
-    posY = 50;
+class StatusBarEndboss extends StatusBar {
+    posX = 470;
+    posY = 0;
     IMAGES_STATUSBAR = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -11,7 +11,12 @@ class StatusBarHealth extends StatusBar {
     ];
 
     constructor() {
-        super().loadImages(this.IMAGES_STATUSBAR);
+        super().otherDirectionStatusbar();
+        this.loadImages(this.IMAGES_STATUSBAR);
         this.setPercentage(100);
+    }
+
+    otherDirectionStatusbar() {
+        this.otherDirection = true;
     }
 }

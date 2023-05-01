@@ -5,8 +5,6 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
 
-    otherDirection = false; // spiegelt bei der animation das Bild.
-
 
     /**
     * Goes through the JSON-imageCache and displays the selected images.

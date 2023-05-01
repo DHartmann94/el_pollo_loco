@@ -1,10 +1,16 @@
 class World {
     character = new Character();
     statusBarHealth = new StatusBarHealth();
+    statusBarBottle = new StatusBarBottle();
+    statusBarCoin = new StatusBarCoin();
+    statusBarEndboss = new StatusBarEndboss();
+    statusBarEndbossIcon = new StatusBarEndbossIcon();
+
     level = level1; // enemies, clouds, bg in der level 1 Variable.
     canvas; // um canvas in der ganzen klasse nutzen zu können.
     ctx;
     camera_x; // Kamera position verschieben.
+    otherDirection = false; // spiegelt das Bild.
     keyboard; // um keyboard in der ganzen klasse nutzen zu können.
 
 
@@ -48,6 +54,10 @@ class World {
         // --- Space for fiexed Objects --- //
         this.ctx.translate(-this.camera_x, 0); //Back
         this.addToMap(this.statusBarHealth);
+        this.addToMap(this.statusBarBottle);
+        this.addToMap(this.statusBarCoin);
+        this.addToMap(this.statusBarEndboss);
+        this.addToMap(this.statusBarEndbossIcon);
         this.ctx.translate(this.camera_x, 0); //Forwards
     }
 
