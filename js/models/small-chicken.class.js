@@ -22,7 +22,7 @@ class SmallChicken extends MovableObject {
         this.loadImages(this.IMAGES_WALKING); // MovableObject
         this.animate();
 
-        this.posX =  x;
+        this.posX = x;
     }
     
     animate() {

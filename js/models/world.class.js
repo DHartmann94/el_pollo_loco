@@ -5,6 +5,7 @@ class World {
     statusBarCoin = new StatusBarCoin();
     statusBarEndboss = new StatusBarEndboss();
     statusBarEndbossIcon = new StatusBarEndbossIcon();
+    throwableObject = [];
 
     level = level1; // enemies, clouds, bg in der level 1 Variable.
     canvas; // um canvas in der ganzen klasse nutzen zu können.
@@ -20,7 +21,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.runInterval();
     }
 
     setWorld() {
@@ -39,6 +40,7 @@ class World {
         this.addObjectsToMap(this.level.smallEnemies);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.throwableObject);
 
         this.drawFixedObjetcts();
         this.ctx.translate(-this.camera_x, 0); // schiebt wenn alle Objecte erstellt wurden den CONTEXT wieder nach rechts.
@@ -103,16 +105,26 @@ class World {
         movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse
     }
 
-    checkCollisions() {
+    runInterval() {
         setInterval(() => {
+            // All Collisions
             this.collisionEnemies();
             this.collissionSmallEnemies();
+            //Throw
+            this.checkThrowableObjects();
         }, 200);
+    }
+
+    checkThrowableObjects() {
+        if (this.keyboard.d) {
+            let bottle = new ThrowableObject(this.character.posX + 25, this.character.posY + 100, this.character.otherDirection);
+            this.throwableObject.push(bottle);
+        }
     }
 
     collisionEnemies() {
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.changeStatusBarProgress();
             }
@@ -121,7 +133,7 @@ class World {
 
     collissionSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.changeStatusBarProgress();
             }

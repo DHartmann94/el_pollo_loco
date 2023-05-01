@@ -27,7 +27,11 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.posY < 170; // dort soll das herunterfallen gestoppt werden.
+        if(this instanceof ThrowableObject) {
+            return true;
+        } else {
+            return this.posY < 170; // dort soll das herunterfallen gestoppt werden.
+        }
     }
 
     isColliding(obj) {

@@ -25,7 +25,9 @@ window.addEventListener("keydown", (event) => {
     if (event.keyCode === 32) {
         keyboard.spacebar = true;
     }
-
+    if (event.keyCode === 68) {
+        keyboard.d = true;
+    }
 });
 
 window.addEventListener("keyup", (event) => {
@@ -44,5 +46,7 @@ window.addEventListener("keyup", (event) => {
     if (event.keyCode === 32) {
         keyboard.spacebar = false;
     }
-
+    if (event.keyCode === 68) {
+        keyboard.d = false;
+    }
 });

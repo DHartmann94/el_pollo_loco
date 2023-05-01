@@ -48,7 +48,7 @@ class DrawableObject {
     }
 
     selectedMovableObjects() {
-        return this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin;
+        return this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin || this instanceof ThrowableObject;
     }
 
 }
