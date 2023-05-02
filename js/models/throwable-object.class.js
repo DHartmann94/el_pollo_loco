@@ -47,7 +47,7 @@ class ThrowableObject extends MovableObject {
             } else {
                 this.posX += 10;
             }
-        }, 25);
+        }, 20);
     }
 
     animate() {

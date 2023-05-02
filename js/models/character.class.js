@@ -12,6 +12,7 @@ class Character extends MovableObject {
     };
     walking_sound = new Audio("audio/running.mp3");
     jumping_sound = new Audio("audio/jumping.mp3");
+    hurt_sound = new Audio("audio/hurt_pepe.mp3");
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',

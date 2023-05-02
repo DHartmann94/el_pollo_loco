@@ -6,6 +6,10 @@ class World {
     statusBarEndboss = new StatusBarEndboss();
     throwableObject = [];
 
+    coin_sound = new Audio("audio/coin.mp3");
+    chicken_sound = new Audio("audio/chicken_dead.mp3");
+    bottle_sound = new Audio("audio/bottle_plop.mp3");
+
     level = level1;
     canvas; // um canvas in der ganzen klasse nutzen zu können.
     ctx;
@@ -129,6 +133,7 @@ class World {
     checkJumpOnEnemies() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
+                this.chicken_sound.play();
                 enemy.speed = 0;
                 enemy.hit(100);
                 enemy.dead = true;
@@ -142,6 +147,7 @@ class World {
     checkJumpOnSmallEnemies() {
         this.level.smallEnemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
+                this.chicken_sound.play();
                 enemy.speed = 0;
                 enemy.hit(100);
                 enemy.dead = true;
@@ -175,6 +181,7 @@ class World {
 
     collectCoins(index) {
         if (this.character.collectableCoins < 100) {
+            this.coin_sound.play();
             this.character.collectableCoins += 20;
             this.statusBarCoin.setPercentage(this.character.collectableCoins);
             this.level.coins.splice(index, 1);
@@ -191,6 +198,7 @@ class World {
 
     collectBottles(index) {
         if (this.character.collectableBottles < 100) {
+            this.bottle_sound.play();
             this.character.collectableBottles += 20;
             this.statusBarBottle.setPercentage(this.character.collectableBottles);
             this.level.bottles.splice(index, 1);
@@ -201,6 +209,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.character.hit(5);
+                this.character.hurt_sound.play();
                 this.changeStatusBarProgress();
             }
         });
@@ -210,6 +219,7 @@ class World {
         this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.character.hit(5);
+                this.character.hurt_sound.play();
                 this.changeStatusBarProgress();
             }
         });
@@ -219,6 +229,7 @@ class World {
         this.level.endboss.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.character.hit(5);
+                this.character.hurt_sound.play();
                 this.changeStatusBarProgress();
             }
         });
