@@ -3,6 +3,9 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5; // case increase speed
 
     energy = 100;
+    collectableCoins = 0;
+    collectableBottles = 0;
+
     lastHit = 0;
 
 

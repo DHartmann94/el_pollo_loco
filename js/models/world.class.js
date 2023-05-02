@@ -32,15 +32,7 @@ class World {
 
         this.ctx.translate(this.camera_x, 0); // Kamera wird nach links geschoben, danach werden alle Objecte geladen. (verschiebt den Ursprung des Koordinatensystems um den x Wert der MO-Klasse)
         // dadruch sieht es so aus als würde sich nur der Hintergrund bewegen.
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.smallEnemies);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.throwableObject);
-
+        this.drawMovableObjects();
         this.drawFixedObjetcts();
         this.ctx.translate(-this.camera_x, 0); // schiebt wenn alle Objecte erstellt wurden den CONTEXT wieder nach rechts.
 
@@ -49,6 +41,17 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
+    }
+
+    drawMovableObjects() {
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.smallEnemies);
+        this.addObjectsToMap(this.level.bottles);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.throwableObject);
     }
 
     drawFixedObjetcts() {
@@ -106,21 +109,61 @@ class World {
     runInterval() {
         setInterval(() => {
             // All Collisions
-            this.collisionEnemies();
-            this.collissionSmallEnemies();
+            this.checkCollisionEnemies();
+            this.checkCollissionSmallEnemies();
+            this.checkCollissionCoins();
+            this.checkCollissionBottles();
             //Throw
             this.checkThrowableObjects();
         }, 200);
     }
 
     checkThrowableObjects() {
-        if (this.keyboard.d) {
-            let bottle = new ThrowableObject(this.character.posX + 25, this.character.posY + 100, this.character.otherDirection);
-            this.throwableObject.push(bottle);
+        if (this.keyboard.d && this.character.collectableBottles > 0) {
+            this.throwBottle();
         }
     }
 
-    collisionEnemies() {
+    throwBottle() {
+        let bottle = new ThrowableObject(this.character.posX + 25, this.character.posY + 100, this.character.otherDirection);
+        this.throwableObject.push(bottle);
+        this.character.collectableBottles -= 20;
+        this.statusBarBottle.setPercentage(this.character.collectableBottles);
+    }
+
+    checkCollissionCoins() {
+        this.level.coins.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                this.collectCoins(index);
+            }
+        });
+    }
+
+    collectCoins(index) {
+        if (this.character.collectableCoins < 100) {
+            this.character.collectableCoins += 20;
+            this.statusBarCoin.setPercentage(this.character.collectableCoins);
+            this.level.coins.splice(index, 1);
+        }
+    }
+
+    checkCollissionBottles() {
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
+                this.collectBottles(index);
+            }
+        });
+    }
+
+    collectBottles(index) {
+        if (this.character.collectableBottles < 100) {
+            this.character.collectableBottles += 20;
+            this.statusBarBottle.setPercentage(this.character.collectableBottles);
+            this.level.bottles.splice(index, 1);
+        }
+    }
+
+    checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
@@ -129,7 +172,7 @@ class World {
         });
     }
 
-    collissionSmallEnemies() {
+    checkCollissionSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
