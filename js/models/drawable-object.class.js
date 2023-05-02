@@ -45,12 +45,15 @@ class DrawableObject {
         ctx.drawImage(this.img, this.posX, this.posY, this.width, this.height);
     }
 
+    
+    /* ----- Help functions to develop the game! ----- */
+    // Is called in the "addToMap(movableObj);".
     drawFrame(ctx) {
         if (this.selectedMovableObjects()) {
             ctx.beginPath();
             ctx.lineWidth = '4';
             ctx.strokeStyle = 'blue';
-            //koordinaten wo die quadrate platziert werden sollen.
+            //Coordinates where the squares should be placed.
             ctx.strokeRect(this.posX + this.offset.left, this.posY + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.top - this.offset.bottom);
         }
     }
@@ -58,5 +61,4 @@ class DrawableObject {
     selectedMovableObjects() {
         return this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin || this instanceof ThrowableObject;
     }
-
 }

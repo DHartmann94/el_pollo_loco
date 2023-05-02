@@ -24,7 +24,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.runInterval();
+        this.runIntervals();
     }
 
     setWorld() {
@@ -37,8 +37,8 @@ class World {
         this.ctx.translate(this.camera_x, 0); // Kamera wird nach links geschoben, danach werden alle Objecte geladen. (verschiebt den Ursprung des Koordinatensystems um den x Wert der MO-Klasse)
         // dadruch sieht es so aus als würde sich nur der Hintergrund bewegen.
         this.drawMovableObjects();
-        this.drawFixedObjetcts();
         this.ctx.translate(-this.camera_x, 0); // schiebt wenn alle Objecte erstellt wurden den CONTEXT wieder nach rechts.
+        this.drawFixedObjetcts();
 
         // Erstell die Objecte im canvas (je nach leistungstärke der graka)
         let self = this;
@@ -61,12 +61,10 @@ class World {
 
     drawFixedObjetcts() {
         // --- Space for fiexed Objects --- //
-        this.ctx.translate(-this.camera_x, 0); //Back
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarBottle);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarEndboss);
-        this.ctx.translate(this.camera_x, 0); //Forwards
     }
 
     addObjectsToMap(objects) { // für die arrays
@@ -83,7 +81,6 @@ class World {
 
         movableObj.draw(this.ctx);
         movableObj.drawFrame(this.ctx);
-
 
         if (movableObj.otherDirection) {
             this.mirrorImageBack(movableObj);
@@ -111,7 +108,7 @@ class World {
         movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse
     }
 
-    runInterval() {
+    runIntervals() {
         setInterval(() => {
             // All Collisions
             this.checkCollisionEnemies();
@@ -119,9 +116,12 @@ class World {
             this.checkCollissionEndboss();
             this.checkCollissionCoins();
             this.checkCollissionBottles();
-            //Throw
-            this.checkThrowableObjects();
         }, 200);
+
+        setInterval(() => {
+            //Throw Bottle
+            this.checkThrowableObjects();
+        }, 100);
 
         setInterval(() => {
             // Jump on Enemies
@@ -131,31 +131,40 @@ class World {
     }
 
     checkJumpOnEnemies() {
-        this.level.enemies.forEach((enemy, index) => {
+        this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
-                this.chicken_sound.play();
-                enemy.speed = 0;
-                enemy.hit(100);
-                enemy.dead = true;
+                this.killEnemy(enemy);
+
                 setTimeout(() => {
-                    this.level.enemies.splice(index, 1);
+                    const foundIndex = this.level.enemies.indexOf(enemy); // Not possible with the forEach index method
+                    if (foundIndex !== -1) {
+                        this.level.enemies.splice(foundIndex, 1);
+                    }
                 }, 1000);
             }
         })
     }
 
     checkJumpOnSmallEnemies() {
-        this.level.smallEnemies.forEach((enemy, index) => {
+        this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
-                this.chicken_sound.play();
-                enemy.speed = 0;
-                enemy.hit(100);
-                enemy.dead = true;
+                this.killEnemy(enemy);
+
                 setTimeout(() => {
-                    this.level.smallEnemies.splice(index, 1);
+                    const foundIndex = this.level.smallEnemies.indexOf(enemy); // Not possible with the forEach index method
+                    if (foundIndex !== -1) {
+                        this.level.smallEnemies.splice(foundIndex, 1);
+                    }
                 }, 1000);
             }
         })
+    }
+
+    killEnemy(enemy) {
+        this.chicken_sound.play();
+        enemy.speed = 0;
+        enemy.hit(100);
+        enemy.dead = true;
     }
 
     checkThrowableObjects() {
@@ -208,9 +217,7 @@ class World {
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.character.hit(5);
-                this.character.hurt_sound.play();
-                this.changeStatusBarProgress();
+                this.characterTakesDamage(5);
             }
         });
     }
@@ -218,9 +225,7 @@ class World {
     checkCollissionSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.character.hit(5);
-                this.character.hurt_sound.play();
-                this.changeStatusBarProgress();
+                this.characterTakesDamage(5);
             }
         });
     }
@@ -228,11 +233,16 @@ class World {
     checkCollissionEndboss() {
         this.level.endboss.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.character.hit(5);
-                this.character.hurt_sound.play();
-                this.changeStatusBarProgress();
+                this.characterTakesDamage(5);
+                console.log(this.character.energy);
             }
         });
+    }
+
+    characterTakesDamage(damage) {
+        this.character.hurt_sound.play();
+        this.character.hit(damage);
+        this.changeStatusBarProgress();
     }
 
     changeStatusBarProgress() {
