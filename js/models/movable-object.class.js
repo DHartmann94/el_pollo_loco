@@ -3,6 +3,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5; // case increase speed
 
     energy = 100;
+    dead = false;
     collectableCoins = 0;
     collectableBottles = 0;
 
@@ -37,6 +38,10 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    isFalling() {
+        return this.speedY < 0 && this.isAboveGround();
+    }
+
     isColliding(obj) {
         return this.posX + this.width - this.offset.right > obj.posX + obj.offset.left &&
             this.posY + this.height - this.offset.bottom > obj.posY + obj.offset.top &&
@@ -44,8 +49,8 @@ class MovableObject extends DrawableObject {
             this.posY + this.offset.top < obj.posY + obj.height - obj.offset.bottom;
     }
 
-    hit() {
-        this.energy -= 5;
+    hit(damage) {
+        this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

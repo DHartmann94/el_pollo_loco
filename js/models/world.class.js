@@ -149,7 +149,7 @@ class World {
 
     checkCollissionBottles() {
         this.level.bottles.forEach((bottle, index) => {
-            if (this.character.isColliding(bottle)) {
+            if (this.character.isColliding(bottle) && this.character.collectableBottles < 100) {
                 this.collectBottles(index);
             }
         });
@@ -166,7 +166,7 @@ class World {
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
+                this.character.hit(5);
                 this.changeStatusBarProgress();
             }
         });
@@ -175,7 +175,7 @@ class World {
     checkCollissionSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit();
+                this.character.hit(5);
                 this.changeStatusBarProgress();
             }
         });
