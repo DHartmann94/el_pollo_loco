@@ -49,6 +49,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.smallEnemies);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObject);
@@ -111,11 +112,44 @@ class World {
             // All Collisions
             this.checkCollisionEnemies();
             this.checkCollissionSmallEnemies();
+            this.checkCollissionEndboss();
             this.checkCollissionCoins();
             this.checkCollissionBottles();
             //Throw
             this.checkThrowableObjects();
         }, 200);
+
+        setInterval(() => {
+            // Jump on Enemies
+            this.checkJumpOnEnemies();
+            this.checkJumpOnSmallEnemies();
+        }, 1000 / 60);
+    }
+
+    checkJumpOnEnemies() {
+        this.level.enemies.forEach((enemy, index) => {
+            if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
+                enemy.speed = 0;
+                enemy.hit(100);
+                enemy.dead = true;
+                setTimeout(() => {
+                    this.level.enemies.splice(index, 1);
+                }, 1000);
+            }
+        })
+    }
+
+    checkJumpOnSmallEnemies() {
+        this.level.smallEnemies.forEach((enemy, index) => {
+            if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
+                enemy.speed = 0;
+                enemy.hit(100);
+                enemy.dead = true;
+                setTimeout(() => {
+                    this.level.smallEnemies.splice(index, 1);
+                }, 1000);
+            }
+        })
     }
 
     checkThrowableObjects() {
@@ -165,7 +199,7 @@ class World {
 
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.character.hit(5);
                 this.changeStatusBarProgress();
             }
@@ -174,7 +208,16 @@ class World {
 
     checkCollissionSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !enemy.dead) {
+                this.character.hit(5);
+                this.changeStatusBarProgress();
+            }
+        });
+    }
+
+    checkCollissionEndboss() {
+        this.level.endboss.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.character.hit(5);
                 this.changeStatusBarProgress();
             }
