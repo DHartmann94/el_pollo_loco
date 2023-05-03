@@ -117,7 +117,7 @@ class World {
             this.checkCollissionCoins();
             this.checkCollissionBottles();
             this.checkBottleHitsEndboss();
-        }, 250);
+        }, 200);
 
         setInterval(() => {
             //Throw Bottle
@@ -135,12 +135,12 @@ class World {
         this.throwableObject.forEach((bottle) => {
             if (this.level.endboss[0].isColliding(bottle)) {
                 bottle.bottleHit = true;
-                
+
                 this.level.endboss[0].hit(20);
                 this.changeStatusBarProgress(this.statusBarEndboss, this.level.endboss[0].energy);
                 setTimeout(() => {
                     this.deleteCorrectObject(bottle, this.throwableObject);
-                }, 100);
+                }, 80);
             }
         })
     }

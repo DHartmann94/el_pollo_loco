@@ -43,5 +43,7 @@ class Endboss extends MovableObject {
         }, 300);
     }
 
-
+    distanceEndbossCharacter() {
+        return this.posX - world.character.posX;
+    }
 }
