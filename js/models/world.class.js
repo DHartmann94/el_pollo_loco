@@ -116,7 +116,8 @@ class World {
             this.checkCollissionEndboss();
             this.checkCollissionCoins();
             this.checkCollissionBottles();
-        }, 200);
+            this.checkBottleHitsEndboss();
+        }, 250);
 
         setInterval(() => {
             //Throw Bottle
@@ -130,16 +131,27 @@ class World {
         }, 1000 / 60);
     }
 
+    checkBottleHitsEndboss() {
+        this.throwableObject.forEach((bottle) => {
+            if (this.level.endboss[0].isColliding(bottle)) {
+                bottle.bottleHit = true;
+                
+                this.level.endboss[0].hit(20);
+                this.changeStatusBarProgress(this.statusBarEndboss, this.level.endboss[0].energy);
+                setTimeout(() => {
+                    this.deleteCorrectObject(bottle, this.throwableObject);
+                }, 100);
+            }
+        })
+    }
+
     checkJumpOnEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
                 this.killEnemy(enemy);
 
                 setTimeout(() => {
-                    const foundIndex = this.level.enemies.indexOf(enemy); // Not possible with the forEach index method
-                    if (foundIndex !== -1) {
-                        this.level.enemies.splice(foundIndex, 1);
-                    }
+                    this.deleteCorrectObject(enemy, this.level.enemies);
                 }, 1000);
             }
         })
@@ -151,13 +163,14 @@ class World {
                 this.killEnemy(enemy);
 
                 setTimeout(() => {
-                    const foundIndex = this.level.smallEnemies.indexOf(enemy); // Not possible with the forEach index method
-                    if (foundIndex !== -1) {
-                        this.level.smallEnemies.splice(foundIndex, 1);
-                    }
+                    this.deleteCorrectObject(enemy, this.level.smallEnemies);
                 }, 1000);
             }
         })
+    }
+
+    deleteCorrectObject(enemy, enemyType) {
+        enemyType.splice(enemyType.indexOf(enemy), 1);
     }
 
     killEnemy(enemy) {
@@ -167,6 +180,7 @@ class World {
         enemy.dead = true;
     }
 
+
     checkThrowableObjects() {
         if (this.keyboard.d && this.character.collectableBottles > 0) {
             this.throwBottle();
@@ -174,11 +188,12 @@ class World {
     }
 
     throwBottle() {
-        let bottle = new ThrowableObject(this.character.posX + 25, this.character.posY + 100, this.character.otherDirection);
+        let bottle = new ThrowableObject(this.character.posX + 25, this.character.posY + 70, this.character.otherDirection);
         this.throwableObject.push(bottle);
         this.character.collectableBottles -= 20;
-        this.statusBarBottle.setPercentage(this.character.collectableBottles);
+        this.changeStatusBarProgress(this.statusBarBottle, this.character.collectableBottles);
     }
+
 
     checkCollissionCoins() {
         this.level.coins.forEach((coin, index) => {
@@ -192,7 +207,7 @@ class World {
         if (this.character.collectableCoins < 100) {
             this.coin_sound.play();
             this.character.collectableCoins += 20;
-            this.statusBarCoin.setPercentage(this.character.collectableCoins);
+            this.changeStatusBarProgress(this.statusBarCoin, this.character.collectableCoins);
             this.level.coins.splice(index, 1);
         }
     }
@@ -209,7 +224,7 @@ class World {
         if (this.character.collectableBottles < 100) {
             this.bottle_sound.play();
             this.character.collectableBottles += 20;
-            this.statusBarBottle.setPercentage(this.character.collectableBottles);
+            this.changeStatusBarProgress(this.statusBarBottle, this.character.collectableBottles);
             this.level.bottles.splice(index, 1);
         }
     }
@@ -234,7 +249,6 @@ class World {
         this.level.endboss.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.characterTakesDamage(5);
-                console.log(this.character.energy);
             }
         });
     }
@@ -242,10 +256,10 @@ class World {
     characterTakesDamage(damage) {
         this.character.hurt_sound.play();
         this.character.hit(damage);
-        this.changeStatusBarProgress();
+        this.changeStatusBarProgress(this.statusBarHealth, this.character.energy);
     }
 
-    changeStatusBarProgress() {
-        this.statusBarHealth.setPercentage(this.character.energy);
+    changeStatusBarProgress(statusBarType, counterType) {
+        statusBarType.setPercentage(counterType);
     }
 }
