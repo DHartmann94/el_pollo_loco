@@ -1,19 +1,22 @@
 class World {
-    character = new Character();
+    character = new Character;
+    endboss = new Endboss;
+    throwableObject = [];
+    level = level1;
+
     statusBarHealth = new StatusBarHealth();
     statusBarBottle = new StatusBarBottle();
     statusBarCoin = new StatusBarCoin();
     statusBarEndboss = new StatusBarEndboss();
-    throwableObject = [];
 
     coin_sound = new Audio("audio/coin.mp3");
     chicken_sound = new Audio("audio/chicken_dead.mp3");
     bottle_sound = new Audio("audio/bottle_plop.mp3");
+    // --- Pepe-Sounds --- //
     walking_sound = new Audio("audio/running.mp3");
     jumping_sound = new Audio("audio/jumping.mp3");
     hurt_sound = new Audio("audio/hurt_pepe.mp3");
 
-    level = level1;
     canvas; // um canvas in der ganzen klasse nutzen zu können.
     ctx;
     camera_x; // Kamera position verschieben.
@@ -67,7 +70,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.smallEnemies);
-        this.addObjectsToMap(this.level.endboss);
+        this.addToMap(this.endboss);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObject);
@@ -147,13 +150,13 @@ class World {
 
     checkBottleHitsEndboss() {
         this.throwableObject.forEach((bottle) => {
-            if (this.level.endboss[0].isColliding(bottle)) {
+            if (this.endboss.isColliding(bottle)) {
                 bottle.bottleHit = true;
 
-                this.level.endboss[0].hit(20);
-                this.changeStatusBarProgress(this.statusBarEndboss, this.level.endboss[0].energy);
-                if (this.level.endboss[0].energy === 0) {
-                    this.killEnemy(this.level.endboss[0]);
+                this.endboss.hit(20);
+                this.changeStatusBarProgress(this.statusBarEndboss, this.endboss.energy);
+                if (this.endboss.energy === 0) {
+                    this.killEnemy(this.endboss);
                 }
                 setTimeout(() => {
                     this.deleteCorrectObject(bottle, this.throwableObject);
@@ -263,11 +266,9 @@ class World {
     }
 
     checkCollissionEndboss() {
-        this.level.endboss.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !enemy.dead) {
+            if (this.character.isColliding(this.endboss) && !this.endboss.dead) {
                 this.characterTakesDamage(10);
             }
-        });
     }
 
     characterTakesDamage(damage) {

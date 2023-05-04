@@ -55,9 +55,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        setTimeout(() => {
-            this.animate();
-        }, 300);
+        this.animate();
     }
 
     animate() {
@@ -71,11 +69,11 @@ class Endboss extends MovableObject {
     }
 
     moveEndboss() {
-        if(this.distanceEndbossCharacter() < 500 && this.distanceEndbossCharacter() > 30 && !this.isDead()) {
+        if (this.distanceEndbossCharacter() < 500 && this.distanceEndbossCharacter() > 30 && !this.isDead()) {
             this.moveLeft();
             this.otherDirection = false;
         }
-        if(this.distanceEndbossCharacter() > -700 && this.distanceEndbossCharacter() < -200 && !this.isDead()) {
+        if (this.distanceEndbossCharacter() > -700 && this.distanceEndbossCharacter() < -200 && !this.isDead()) {
             this.moveRight();
             this.otherDirection = true;
         }
