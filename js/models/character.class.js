@@ -98,7 +98,7 @@ class Character extends MovableObject {
 
     moveCharacter() {
         world.walking_sound.pause();
-        if (this.world.keyboard.right && this.posX < this.world.level.level_end_x) {
+        if (this.world.keyboard.right && this.posX < this.world.level.level_end_x && !this.isDead()) {
             this.stopMovementTimer = 0;
             this.moveRight();
             this.otherDirection = false;
@@ -106,7 +106,7 @@ class Character extends MovableObject {
                 world.walking_sound.play();
             }
         }
-        if (this.world.keyboard.left && this.posX > 0) {
+        if (this.world.keyboard.left && this.posX > 0 && !this.isDead()) {
             this.stopMovementTimer = 0;
             this.moveLeft();
             this.otherDirection = true;
@@ -115,7 +115,7 @@ class Character extends MovableObject {
             }
         }
 
-        if (this.world.keyboard.up && !this.isAboveGround() || this.world.keyboard.spacebar && !this.isAboveGround()) {
+        if (this.world.keyboard.up && !this.isAboveGround() && !this.isDead() || this.world.keyboard.spacebar && !this.isAboveGround() && !this.isDead()) {
             this.stopMovementTimer = 0;
             this.jump();
             world.jumping_sound.play();

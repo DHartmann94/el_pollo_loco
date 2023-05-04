@@ -199,7 +199,7 @@ class World {
 
 
     checkThrowableObjects() {
-        if (this.keyboard.d && this.character.collectableBottles > 0) {
+        if (this.keyboard.d && this.character.collectableBottles > 0 && !this.character.isDead()) {
             this.throwBottle();
         }
     }

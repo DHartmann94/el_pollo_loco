@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
     posY = 50;
     height = 400;
     width = 400;
-    speed = 5;
+    speed = 1.5;
     offset = {
         top: 70,
         right: 15,
@@ -55,13 +55,15 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.animate();
+        setTimeout(() => {
+            this.animate();
+        }, 300);
     }
 
     animate() {
         setInterval(() => {
             this.moveEndboss();
-        }, 1000 / 10);
+        }, 1000 / 60);
 
         setInterval(() => {
             this.playEndbossAnimation();
