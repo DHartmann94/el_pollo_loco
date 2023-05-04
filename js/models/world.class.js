@@ -138,6 +138,9 @@ class World {
 
                 this.level.endboss[0].hit(20);
                 this.changeStatusBarProgress(this.statusBarEndboss, this.level.endboss[0].energy);
+                if(this.level.endboss[0].energy === 0) {
+                    this.killEnemy(this.level.endboss[0]);
+                }
                 setTimeout(() => {
                     this.deleteCorrectObject(bottle, this.throwableObject);
                 }, 80);
@@ -169,8 +172,8 @@ class World {
         })
     }
 
-    deleteCorrectObject(enemy, enemyType) {
-        enemyType.splice(enemyType.indexOf(enemy), 1);
+    deleteCorrectObject(object, objectType) {
+        objectType.splice(objectType.indexOf(object), 1);
     }
 
     killEnemy(enemy) {
