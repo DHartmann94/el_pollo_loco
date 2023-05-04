@@ -10,9 +10,6 @@ class Character extends MovableObject {
         bottom: 5,
         left: 15
     };
-    walking_sound = new Audio("audio/running.mp3");
-    jumping_sound = new Audio("audio/jumping.mp3");
-    hurt_sound = new Audio("audio/hurt_pepe.mp3");
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -100,13 +97,13 @@ class Character extends MovableObject {
     }
 
     moveCharacter() {
-        this.walking_sound.pause();
+        world.walking_sound.pause();
         if (this.world.keyboard.right && this.posX < this.world.level.level_end_x) {
             this.stopMovementTimer = 0;
             this.moveRight();
             this.otherDirection = false;
             if(!this.isAboveGround()) {
-                this.walking_sound.play();
+                world.walking_sound.play();
             }
         }
         if (this.world.keyboard.left && this.posX > 0) {
@@ -114,14 +111,14 @@ class Character extends MovableObject {
             this.moveLeft();
             this.otherDirection = true;
             if(!this.isAboveGround()) {
-                this.walking_sound.play();
+                world.walking_sound.play();
             }
         }
 
         if (this.world.keyboard.up && !this.isAboveGround() || this.world.keyboard.spacebar && !this.isAboveGround()) {
             this.stopMovementTimer = 0;
             this.jump();
-            this.jumping_sound.play();
+            world.jumping_sound.play();
         }
         this.world.camera_x = -this.posX + 100; // Moves the camera with the Character / + 100 to the right (character)
     }

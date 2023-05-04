@@ -9,6 +9,9 @@ class World {
     coin_sound = new Audio("audio/coin.mp3");
     chicken_sound = new Audio("audio/chicken_dead.mp3");
     bottle_sound = new Audio("audio/bottle_plop.mp3");
+    walking_sound = new Audio("audio/running.mp3");
+    jumping_sound = new Audio("audio/jumping.mp3");
+    hurt_sound = new Audio("audio/hurt_pepe.mp3");
 
     level = level1;
     canvas; // um canvas in der ganzen klasse nutzen zu können.
@@ -24,11 +27,22 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.volumeSounds();
         this.runIntervals();
     }
 
     setWorld() {
         this.character.world = this; // verknüft die world (wegen keyboard) mit character.
+    }
+
+    volumeSounds() {
+        this.coin_sound.volume  = 0.03;
+        this.chicken_sound.volume  = 0.1;
+        this.bottle_sound.volume  = 0.1;
+        // --- Pepe-Sounds --- //
+        this.walking_sound.volume  = 0.2;
+        this.jumping_sound.volume  = 0.2;
+        this.hurt_sound.volume  = 0.2;
     }
 
     draw() {
@@ -138,7 +152,7 @@ class World {
 
                 this.level.endboss[0].hit(20);
                 this.changeStatusBarProgress(this.statusBarEndboss, this.level.endboss[0].energy);
-                if(this.level.endboss[0].energy === 0) {
+                if (this.level.endboss[0].energy === 0) {
                     this.killEnemy(this.level.endboss[0]);
                 }
                 setTimeout(() => {
@@ -251,15 +265,17 @@ class World {
     checkCollissionEndboss() {
         this.level.endboss.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.characterTakesDamage(5);
+                this.characterTakesDamage(10);
             }
         });
     }
 
     characterTakesDamage(damage) {
-        this.character.hurt_sound.play();
-        this.character.hit(damage);
-        this.changeStatusBarProgress(this.statusBarHealth, this.character.energy);
+        if (this.character.energy > 0) {
+            this.hurt_sound.play();
+            this.character.hit(damage);
+            this.changeStatusBarProgress(this.statusBarHealth, this.character.energy);
+        }
     }
 
     changeStatusBarProgress(statusBarType, counterType) {

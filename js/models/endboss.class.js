@@ -84,9 +84,9 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
-        } else if (this.distanceEndbossCharacter() < 130) {
+        } else if (this.distanceEndbossCharacter() < 130 && !world.character.isDead()) {
             this.playAnimation(this.IMAGES_ATTACK);
-        } else if (this.distanceEndbossCharacter() < 500) {
+        } else if (this.distanceEndbossCharacter() < 500 && !world.character.isDead()) {
             this.playAnimation(this.IMAGES_WALKING); // MovableObject
         } else if (this.distanceEndbossCharacter() < 800) {
             this.playAnimation(this.IMAGES_ALERT); // MovableObject
