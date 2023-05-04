@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
     posY = 50;
     height = 400;
     width = 400;
-    speed = 4;
+    speed = 5;
     offset = {
         top: 70,
         right: 15,
@@ -61,7 +61,7 @@ class Endboss extends MovableObject {
     animate() {
         setInterval(() => {
             this.moveEndboss();
-        }, 1000 / 12);
+        }, 1000 / 10);
 
         setInterval(() => {
             this.playEndbossAnimation();
