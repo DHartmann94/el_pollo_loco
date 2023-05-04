@@ -50,7 +50,7 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
 
-        this.loadImages(this.IMAGES_ALERT); // MovableObject
+        this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
@@ -82,15 +82,22 @@ class Endboss extends MovableObject {
     playEndbossAnimation() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
+            this.endbossFall();
         } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
         } else if (this.distanceEndbossCharacter() < 130 && !world.character.isDead()) {
             this.playAnimation(this.IMAGES_ATTACK);
         } else if (this.distanceEndbossCharacter() < 500 && !world.character.isDead()) {
-            this.playAnimation(this.IMAGES_WALKING); // MovableObject
+            this.playAnimation(this.IMAGES_WALKING);
         } else if (this.distanceEndbossCharacter() < 800) {
-            this.playAnimation(this.IMAGES_ALERT); // MovableObject
+            this.playAnimation(this.IMAGES_ALERT);
         }
+    }
+
+    endbossFall() {
+        setInterval(() => {
+            this.posY += 2.5;
+        }, 1000 / 60);
     }
 
     distanceEndbossCharacter() {

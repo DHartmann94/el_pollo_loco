@@ -34,30 +34,38 @@ class World {
         this.runIntervals();
     }
 
+    /**
+     * We can access the world class from the character class.
+     */
     setWorld() {
         this.character.world = this; // verknüft die world (wegen keyboard) mit character.
     }
 
+    /**
+     * Audio file volume.
+     */
     volumeSounds() {
-        this.coin_sound.volume  = 0.03;
-        this.chicken_sound.volume  = 0.1;
-        this.bottle_sound.volume  = 0.1;
+        this.coin_sound.volume = 0.03;
+        this.chicken_sound.volume = 0.1;
+        this.bottle_sound.volume = 0.1;
         // --- Pepe-Sounds --- //
-        this.walking_sound.volume  = 0.2;
-        this.jumping_sound.volume  = 0.2;
-        this.hurt_sound.volume  = 0.2;
+        this.walking_sound.volume = 0.2;
+        this.jumping_sound.volume = 0.2;
+        this.hurt_sound.volume = 0.2;
     }
 
+    /**
+     * Shows the images on the right place in the canvas.
+     */
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // löscht alle Bilder im canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Delete all picture in the canvas.
 
-        this.ctx.translate(this.camera_x, 0); // Kamera wird nach links geschoben, danach werden alle Objecte geladen. (verschiebt den Ursprung des Koordinatensystems um den x Wert der MO-Klasse)
-        // dadruch sieht es so aus als würde sich nur der Hintergrund bewegen.
+        this.ctx.translate(this.camera_x, 0); // "Cam" moves to the left then all picture will be show.
         this.drawMovableObjects();
-        this.ctx.translate(-this.camera_x, 0); // schiebt wenn alle Objecte erstellt wurden den CONTEXT wieder nach rechts.
+        this.ctx.translate(-this.camera_x, 0); // Moves the CONTEXT back to the right when all objects have been created.
         this.drawFixedObjetcts();
 
-        // Erstell die Objecte im canvas (je nach leistungstärke der graka)
+        // Put the objects in canvas (depending on the power of the graphics card).
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -77,7 +85,6 @@ class World {
     }
 
     drawFixedObjetcts() {
-        // --- Space for fiexed Objects --- //
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarBottle);
         this.addToMap(this.statusBarCoin);
@@ -85,7 +92,7 @@ class World {
     }
 
     addObjectsToMap(objects) { // für die arrays
-        objects.forEach(object => {
+        objects.forEach((object) => {
             this.addToMap(object);
         });
     }
@@ -125,9 +132,12 @@ class World {
         movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse
     }
 
+    /**
+     * Runs all intervals.
+     */
     runIntervals() {
         setInterval(() => {
-            // All Collisions
+            // Check all Collisions
             this.checkCollisionEnemies();
             this.checkCollissionSmallEnemies();
             this.checkCollissionEndboss();
@@ -137,12 +147,12 @@ class World {
         }, 200);
 
         setInterval(() => {
-            //Throw Bottle
+            // Throw Bottle
             this.checkThrowableObjects();
         }, 100);
 
         setInterval(() => {
-            // Jump on Enemies
+            // Check jump on Enemies
             this.checkJumpOnEnemies();
             this.checkJumpOnSmallEnemies();
         }, 1000 / 60);
@@ -152,20 +162,28 @@ class World {
         }, 1000);
     }
 
+    /**
+     * Checks when the game is over (different endings).
+     */
     checkGameEnd() {
-        if(this.endboss.isDead()) {
+        if (this.endboss.isDead()) {
             setTimeout(() => {
                 gameOverScreen();
             }, 1000);
         }
 
-        if(this.character.isDead()) {
+        if (this.character.isDead()) {
             setTimeout(() => {
                 youLoseScreen();
             }, 1000);
         }
     }
 
+    /**
+     * Check if a bottle hits the endboss.
+     * Updated the status-life bar and life of the endboss.
+     * Delete the bottle that hit the endboss after the setTimeout.
+     */
     checkBottleHitsEndboss() {
         this.throwableObject.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
@@ -183,6 +201,10 @@ class World {
         })
     }
 
+    /**
+     * Check if the character jump on an enemie,
+     * Deletes the hit enemie after the setTimeout.
+     */
     checkJumpOnEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
@@ -207,10 +229,20 @@ class World {
         })
     }
 
+    /**
+     * Removes the specified object from the specified array.
+     * @param {Object} object - The exact object to be deleted.
+     * @param {Object} objectType -  The array of objects from which the specified object will be removed.
+     */
     deleteCorrectObject(object, objectType) {
         objectType.splice(objectType.indexOf(object), 1);
     }
 
+    /**
+     * Kills the specified enemy by setting its energy to 0 (hit(100)) and marking it as dead.
+     * By marking it as dead, the character no longer takes any damage from the dead enemy.
+     * @param {Object} enemy - The enemy who was killed.
+     */
     killEnemy(enemy) {
         this.chicken_sound.play();
         enemy.speed = 0;
@@ -218,7 +250,9 @@ class World {
         enemy.dead = true;
     }
 
-
+    /**
+     * Check if the Character can throw a bottle.
+     */
     checkThrowableObjects() {
         if (this.keyboard.d && this.character.collectableBottles > 0 && !this.character.isDead()) {
             this.throwBottle();
@@ -233,6 +267,9 @@ class World {
     }
 
 
+    /**
+     * Check the collision with a coin or bottle.
+     */
     checkCollissionCoins() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
@@ -241,6 +278,19 @@ class World {
         });
     }
 
+    checkCollissionBottles() {
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle) && this.character.collectableBottles < 100) {
+                this.collectBottles(index);
+            }
+        });
+    }
+
+    /**
+     * Updated the status-bar from coin- or bottle-bar.
+     * Delete the collect coin or bottle from the array (canvas).
+     * @param {Number} index - The index of the collated coin or bottle.
+     */
     collectCoins(index) {
         if (this.character.collectableCoins < 100) {
             this.coin_sound.play();
@@ -248,14 +298,6 @@ class World {
             this.changeStatusBarProgress(this.statusBarCoin, this.character.collectableCoins);
             this.level.coins.splice(index, 1);
         }
-    }
-
-    checkCollissionBottles() {
-        this.level.bottles.forEach((bottle, index) => {
-            if (this.character.isColliding(bottle) && this.character.collectableBottles < 100) {
-                this.collectBottles(index);
-            }
-        });
     }
 
     collectBottles(index) {
@@ -267,6 +309,9 @@ class World {
         }
     }
 
+    /**
+     * Check collision with an enemy.
+     */
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
@@ -284,11 +329,16 @@ class World {
     }
 
     checkCollissionEndboss() {
-            if (this.character.isColliding(this.endboss) && !this.endboss.dead) {
-                this.characterTakesDamage(10);
-            }
+        if (this.character.isColliding(this.endboss) && !this.endboss.dead) {
+            this.characterTakesDamage(10);
+        }
     }
 
+    /**
+     * After a hit the character takes damage.
+     * The status-life bar will be updatet.
+     * @param {Number} damage - Level of damage.
+     */
     characterTakesDamage(damage) {
         if (this.character.energy > 0) {
             this.hurt_sound.play();
@@ -297,6 +347,11 @@ class World {
         }
     }
 
+    /**
+     * Update of the corresponding status-bar.
+     * @param {Object} statusBarType - The status bar to be updated.
+     * @param {Number} counterType - The value to update.
+     */
     changeStatusBarProgress(statusBarType, counterType) {
         statusBarType.setPercentage(counterType);
     }

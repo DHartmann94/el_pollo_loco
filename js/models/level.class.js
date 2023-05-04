@@ -9,7 +9,7 @@ class Level {
     coins;
     level_end_x = 2200;
 
-    constructor(enemies, smallEnemies, clouds, backgroundObjects, bottles, coins) { // werden von new Level hierher ausgegeben.
+    constructor(enemies, smallEnemies, clouds, backgroundObjects, bottles, coins) {
         this.enemies = enemies;
         this.smallEnemies = smallEnemies;
         this.clouds = clouds;

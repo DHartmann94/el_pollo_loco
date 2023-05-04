@@ -3,7 +3,7 @@ class SmallChicken extends MovableObject {
     posY = 365;
     height = 55;
     width = 55;
-    speed = 0.5 + Math.random() * 0.4; // random geschwindigkeit (vorher im constructor)
+    speed = 0.5 + Math.random() * 0.4;
     offset = {
         top: 5,
         right: 5,
@@ -22,7 +22,7 @@ class SmallChicken extends MovableObject {
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
 
-        this.loadImages(this.IMAGES_WALKING); // MovableObject
+        this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
         this.animate();
 
@@ -38,7 +38,7 @@ class SmallChicken extends MovableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else {
-                this.playAnimation(this.IMAGES_WALKING); // MovableObject
+                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 100);
     }

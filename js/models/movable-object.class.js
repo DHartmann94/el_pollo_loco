@@ -1,6 +1,6 @@
 class MovableObject extends DrawableObject {
-    speedY = 0; // case speed
-    acceleration = 2.5; // case increase speed
+    speedY = 0;
+    acceleration = 2.5;
 
     energy = 100;
     dead = false;
@@ -15,12 +15,15 @@ class MovableObject extends DrawableObject {
     * @param {Array} images -An array consisting of animation images.
     */
     playAnimation(images) {
-        let index = this.currentImage % images.length; // Modulo = wenn das ende des array erreicht ist fängt index wieder bei 0 an.
-        let path = images[index]; // wählt das entsprechnde Bild aus IMAGES_WALKING aus.
-        this.img = this.imageCache[path]; // dieses wird in die Variable img geladen und angezeigt.
+        let index = this.currentImage % images.length;
+        let path = images[index];
+        this.img = this.imageCache[path];
         this.currentImage++;
     }
 
+    /**
+     * Creates a gravitational effect.
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -34,14 +37,23 @@ class MovableObject extends DrawableObject {
         if(this instanceof ThrowableObject) {
             return true;
         } else {
-            return this.posY < 170; // dort soll das herunterfallen gestoppt werden.
+            return this.posY < 170; //The falling should be stopped there.
         }
     }
 
+    /**
+     * Calculates when an object falls.
+     * @returns {boolean} - Returns true if the object is falling.
+     */
     isFalling() {
         return this.speedY < 0 && this.isAboveGround();
     }
 
+    /**
+     * Checks if the current object is colliding with the specified object.
+     * @param {Object} obj - The object to check collision with.
+     * @returns {boolean} - Returns true if the objects are colliding.
+     */
     isColliding(obj) {
         return this.posX + this.width - this.offset.right > obj.posX + obj.offset.left &&
             this.posY + this.height - this.offset.bottom > obj.posY + obj.offset.top &&
@@ -49,6 +61,11 @@ class MovableObject extends DrawableObject {
             this.posY + this.offset.top < obj.posY + obj.height - obj.offset.bottom;
     }
 
+    /**
+     * Decreases the energy of the object by the specified damage value.
+     * Saves the time of the hit.
+     * @param {Number} damage - The damage value to be deducted.
+     */
     hit(damage) {
         this.energy -= damage;
         if (this.energy < 0) {
@@ -58,16 +75,27 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Indicates the duration of the animation.
+     * @returns - Duration of the animation.
+     */
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit; // difference
-        timePassed = timePassed / 1000; // milliseconds
-        return timePassed < 0.5; // dauer der animation
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000;
+        return timePassed < 0.5;
     }
 
+    /**
+     * Indicates when an object is dead.
+     * @returns {boolean} - Returns true if the objects is dead.
+     */
     isDead() {
         return this.energy === 0;
     }
 
+    /**
+     * Movement types.
+     */
     moveRight() {
         this.posX += this.speed;
     }
