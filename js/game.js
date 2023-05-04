@@ -8,6 +8,34 @@ function init() {
     world = new World(canvas, keyboard);
 }
 
+function youLoseScreen() {
+    clearAllIntervals();
+    hideContainer('canvas');
+    showContainer('lose-screen');
+}
+
+function gameOverScreen() {
+    clearAllIntervals();
+    hideContainer('canvas');
+    showContainer('game-over-screen');
+}
+
+function clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+}
+
+function restartGame() {
+    location.reload();
+}
+
+function showContainer(id) {
+    document.getElementById(`${id}`).classList.remove('d-none');
+}
+
+function hideContainer(id) {
+    document.getElementById(`${id}`).classList.add('d-none');
+}
+
 window.addEventListener("keydown", (event) => {
     if (event.keyCode === 38) {
         keyboard.up = true;

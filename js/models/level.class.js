@@ -1,6 +1,7 @@
 class Level {
     character;
     enemies;
+    endboss;
     smallEnemies;
     clouds;
     backgroundObjects;

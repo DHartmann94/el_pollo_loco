@@ -25,20 +25,83 @@
 
 body {
   font-family: 'zabars', Arial, Helvetica, sans-serif;
-  background: url('img/canyon_bg.png') no-repeat center center fixed;
+  background: url('img/10_other/canyon_bg.png') no-repeat center center fixed;
   background-size: cover;
   margin: 0px;
+  width: 100%;
+  height: 100vh;  
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
 canvas {
-  background-color: black;
+  background-color: black; /*TEST !!!!!!!!!!!!!!*/
 }
 
 h1 {
   font-size: 64px;
   letter-spacing: 3px;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin: 5px 5px 5px 5px;
+}
+
+/*button {
+  background-color: rgb(255,228,178);
+  border: 2px solid rgb(198,76,33);
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.144);
+  padding: 16px;
+  margin: 16px;
+  color: rgb(198,76,33);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgb(248, 215, 153);
+  scale: 1.1;
+}*/
+
+.d-none {
+  display: none;
+}
+
+.img-button {
+  width: 40px;
+  height: 40px;
+  margin: 16px 10px 16px 10px;
+  cursor: pointer;
+}
+
+.img-button:hover {
+  scale: 1.1;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen {
+  width: 720px;
+  height: 480px;
+  animation: zoomIn 500ms ease-in-out;
+  z-index: 2;
+}
+
+.screen img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes zoomIn {
+  from{
+    transform: scale(0);
+  }
+  to{
+    transform: scale(1);
+  }
 }

@@ -146,6 +146,24 @@ class World {
             this.checkJumpOnEnemies();
             this.checkJumpOnSmallEnemies();
         }, 1000 / 60);
+
+        setInterval(() => {
+            this.checkGameEnd();
+        }, 1000);
+    }
+
+    checkGameEnd() {
+        if(this.endboss.isDead()) {
+            setTimeout(() => {
+                gameOverScreen();
+            }, 1000);
+        }
+
+        if(this.character.isDead()) {
+            setTimeout(() => {
+                youLoseScreen();
+            }, 1000);
+        }
     }
 
     checkBottleHitsEndboss() {

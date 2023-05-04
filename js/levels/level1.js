@@ -13,12 +13,12 @@ const level1 = new Level(
         new SmallChicken(2000)
     ],
     [
-        new Cloud(100),
-        new Cloud(500),
-        new Cloud(1000),
-        new Cloud(1500),
-        new Cloud(2000),
-        new Cloud(2500)
+        new Cloud("img/5_background/layers/4_clouds/1.png", 100),
+        new Cloud("img/5_background/layers/4_clouds/2.png",500),
+        new Cloud("img/5_background/layers/4_clouds/1.png",1000),
+        new Cloud("img/5_background/layers/4_clouds/1.png",1500),
+        new Cloud("img/5_background/layers/4_clouds/2.png",2000),
+        new Cloud("img/5_background/layers/4_clouds/2.png",2500)
     ],
     [
         new BackgroundObject("img/5_background/layers/air.png", -719),
