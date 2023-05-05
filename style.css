@@ -87,6 +87,13 @@ button:hover {
   align-items: center;
 }
 
+.button-container {
+  width: 100%;
+  margin: 0px 16px 0px 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .screen {
   width: 720px;
   height: 480px;

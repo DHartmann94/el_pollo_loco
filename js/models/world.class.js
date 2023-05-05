@@ -9,6 +9,8 @@ class World {
     statusBarCoin = new StatusBarCoin();
     statusBarEndboss = new StatusBarEndboss();
 
+    background_sound = new Audio("audio/background_music.mp3");
+    winning_sound = new Audio("audio/winning.mp3");
     coin_sound = new Audio("audio/coin.mp3");
     chicken_sound = new Audio("audio/chicken_dead.mp3");
     bottle_sound = new Audio("audio/bottle_plop.mp3");
@@ -42,16 +44,31 @@ class World {
     }
 
     /**
-     * Audio file volume.
+     * Audio file volume settings.
      */
     volumeSounds() {
-        this.coin_sound.volume = 0.03;
-        this.chicken_sound.volume = 0.1;
-        this.bottle_sound.volume = 0.1;
-        // --- Pepe-Sounds --- //
-        this.walking_sound.volume = 0.2;
-        this.jumping_sound.volume = 0.2;
-        this.hurt_sound.volume = 0.2;
+        if (muteSound) {
+            this.background_sound.volume = 0;
+            this.winning_sound.volume = 0;
+            this.coin_sound.volume = 0;
+            this.chicken_sound.volume = 0;
+            this.bottle_sound.volume = 0;
+            // --- Pepe-Sounds --- //
+            this.walking_sound.volume = 0;
+            this.jumping_sound.volume = 0;
+            this.hurt_sound.volume = 0;
+        } else {
+            this.background_sound.volume = 0.1;
+            this.background_sound.play();
+            this.winning_sound.volume = 0.1;
+            this.coin_sound.volume = 0.03;
+            this.chicken_sound.volume = 0.1;
+            this.bottle_sound.volume = 0.1;
+            // --- Pepe-Sounds --- //
+            this.walking_sound.volume = 0.2;
+            this.jumping_sound.volume = 0.2;
+            this.hurt_sound.volume = 0.2;
+        }
     }
 
     /**
@@ -167,18 +184,21 @@ class World {
     }
 
     /**
-     * Checks when the game is over (different endings).
+     * Checks when the game is over (different endings) and play a winning or lose sound.
      */
     checkGameEnd() {
         if (this.endboss.isDead()) {
             setTimeout(() => {
                 gameOverScreen();
+                this.background_sound.volume = 0;
+                this.winning_sound.play();
             }, 1000);
         }
 
         if (this.character.isDead()) {
             setTimeout(() => {
                 youLoseScreen();
+                this.background_sound.volume = 0;
             }, 1000);
         }
     }

@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let muteSound = false;
 
 
 function init() {
@@ -14,6 +15,7 @@ function startGame() {
     hideContainer('start-button');
     showContainer('restart-button');
     showContainer('canvas');
+    showContainer('img-volume');
     init();
     showLoader();
 }
@@ -39,9 +41,22 @@ function restartGame() {
     init();
 }
 
-
 function homeScreen() {
     location.reload();
+}
+
+function volumeOff() {
+    muteSound = true;
+    world.volumeSounds(); // oder ein interval in der world?
+    hideContainer('img-volume');
+    showContainer('img-mute');
+}
+
+function volumeOn() {
+    muteSound = false;
+    world.volumeSounds(); // oder ein interval in der world?
+    hideContainer('img-mute');
+    showContainer('img-volume');
 }
 
 function showLoader() {
