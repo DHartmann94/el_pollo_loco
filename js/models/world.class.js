@@ -137,17 +137,21 @@ class World {
      */
     runIntervals() {
         setInterval(() => {
-            // Check all Collisions
+            // Check Collisions Enemies
             this.checkCollisionEnemies();
             this.checkCollissionSmallEnemies();
             this.checkCollissionEndboss();
+        }, 300);
+
+        setInterval(() => {
+            // Check Collisions Items
             this.checkCollissionCoins();
             this.checkCollissionBottles();
             this.checkBottleHitsEndboss();
-        }, 200);
+        }, 100);
 
         setInterval(() => {
-            // Throw Bottle
+            // Check Throw Bottle
             this.checkThrowableObjects();
         }, 100);
 
@@ -155,7 +159,7 @@ class World {
             // Check jump on Enemies
             this.checkJumpOnEnemies();
             this.checkJumpOnSmallEnemies();
-        }, 1000 / 60);
+        }, 1000 / 80);
 
         setInterval(() => {
             this.checkGameEnd();

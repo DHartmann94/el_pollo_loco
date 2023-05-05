@@ -4,8 +4,18 @@ let keyboard = new Keyboard();
 
 
 function init() {
+    initLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+}
+
+function startGame() {
+    hideContainer('home-screen');
+    hideContainer('start-button');
+    showContainer('restart-button');
+    showContainer('canvas');
+    init();
+    showLoader();
 }
 
 function youLoseScreen() {
@@ -20,12 +30,33 @@ function gameOverScreen() {
     showContainer('game-over-screen');
 }
 
-function clearAllIntervals() {
-    for (let i = 1; i < 9999; i++) window.clearInterval(i);
+function restartGame() {
+    hideLoader();
+    hideContainer('lose-screen');
+    hideContainer('game-over-screen');
+    showContainer('canvas');
+    clearAllIntervals();
+    init();
 }
 
-function restartGame() {
+
+function homeScreen() {
     location.reload();
+}
+
+function showLoader() {
+    document.getElementById('loader').classList.remove('loader-hidden');
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('loader-hidden');
+    }, 1000);
+}
+
+function hideLoader() {
+    document.getElementById('loader').classList.add('loader-hidden');
+}
+
+function clearAllIntervals() {
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
 function showContainer(id) {
