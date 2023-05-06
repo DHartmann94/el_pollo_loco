@@ -150,15 +150,19 @@ class World {
     }
 
     /**
-     * Runs all intervals.
+     * Runs all intervals in world.
+     * Intervals checked collisions, throw bottle and game end.
      */
     runIntervals() {
         setStoppableInterval(() => {
+            // Check jump on Enemies
+            this.checkJumpOnEnemies();
+            this.checkJumpOnSmallEnemies();
             // Check Collisions Enemies
             this.checkCollisionEnemies();
             this.checkCollissionSmallEnemies();
             this.checkCollissionEndboss();
-        }, 300);
+        }, 1000 / 60);
 
         setStoppableInterval(() => {
             // Check Collisions Items
@@ -171,12 +175,6 @@ class World {
             // Check Throw Bottle
             this.checkThrowableObjects();
         }, 100);
-
-        setStoppableInterval(() => {
-            // Check jump on Enemies
-            this.checkJumpOnEnemies();
-            this.checkJumpOnSmallEnemies();
-        }, 1000 / 80);
 
         setStoppableInterval(() => {
             this.checkGameEnd();
@@ -339,7 +337,7 @@ class World {
     checkCollisionEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.characterTakesDamage(5);
+                this.characterTakesDamage(1);
             }
         });
     }
@@ -347,14 +345,14 @@ class World {
     checkCollissionSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.characterTakesDamage(5);
+                this.characterTakesDamage(1);
             }
         });
     }
 
     checkCollissionEndboss() {
         if (this.character.isColliding(this.endboss) && !this.endboss.dead) {
-            this.characterTakesDamage(10);
+            this.characterTakesDamage(1.5);
         }
     }
 

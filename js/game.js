@@ -30,12 +30,14 @@ function startGame() {
 function youLoseScreen() {
     clearAllIntervals();
     hideContainer('canvas');
+    hideContainer('pause-button');
     showContainer('lose-screen');
 }
 
 function gameOverScreen() {
     clearAllIntervals();
     hideContainer('canvas');
+    hideContainer('pause-button');
     showContainer('game-over-screen');
 }
 
@@ -49,8 +51,8 @@ function restartGame() {
 }
 
 function pauseGame() {
-    showContainer('start-after-pause-button');
     hideContainer('pause-button');
+    showContainer('start-after-pause-button');
     allIntervals.forEach(clearInterval);
     world.background_sound.pause();
     muteSound = false;
