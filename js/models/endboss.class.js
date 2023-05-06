@@ -59,11 +59,11 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.moveEndboss();
         }, 1000 / 60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.playEndbossAnimation();
         }, 300);
     }

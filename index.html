@@ -58,35 +58,35 @@
             <div class="info-screen pos-abs d-none">
                 <div class="info-controlls">
                     <div class="info-controlls-child">
-                        <div>
+                        <div class="container-center">
                             <img class="img-keyboard-img" src="img/10_other/arrow_left.png" alt="Left">
                         </div>
-                        <span class="text-center">
+                        <span class="container-center">
                             Move-Left
                         </span>
                     </div>
                     <div class="info-controlls-child">
-                        <div>
+                        <div class="container-center">
                             <img class="img-keyboard-img" src="img/10_other/arrow_right.png" alt="Right">
                         </div>
-                        <span class="text-center">
+                        <span class="container-center">
                             Move-Right
                         </span>
                     </div>
                     <div class="info-controlls-child">
-                        <div>
+                        <div class="container-center">
                             <img class="img-keyboard-img" src="img/10_other/arrow_up.png" alt="Up">
                             <img class="img-keyboard-img" src="img/10_other/space.png" alt="Spacebar">
                         </div>
-                        <span class="text-center">
+                        <span class="container-center">
                             Jump
                         </span>
                     </div>
                     <div class="info-controlls-child">
-                        <div>
+                        <div class="container-center">
                             <img class="img-keyboard-img" src="img/10_other/bottle.png" alt="Bottle">
                         </div>
-                        <span class="text-center">
+                        <span class="container-center">
                             D / Throw
                         </span>
                     </div>
@@ -111,6 +111,8 @@
             </div>
             <div>
                 <img onclick="homeScreen()" class="img-button" src="img/10_other/home.png" alt="Home">
+                <img onclick="pauseGame()" id="pause-button" class="img-button d-none" src="img/10_other/pause.png" alt="Pause">
+                <img onclick="startGameAfterPause()" id="start-after-pause-button" class="img-button d-none" src="img/10_other/play.png" alt="Play">
                 <img onclick="startGame()" id="start-button" class="img-button" src="img/10_other/play.png" alt="Play">
                 <img onclick="restartGame()" id="restart-button" class="img-button d-none" src="img/10_other/reload.png" alt="Reload">
             </div>

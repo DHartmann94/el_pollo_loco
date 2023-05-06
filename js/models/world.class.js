@@ -153,32 +153,32 @@ class World {
      * Runs all intervals.
      */
     runIntervals() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             // Check Collisions Enemies
             this.checkCollisionEnemies();
             this.checkCollissionSmallEnemies();
             this.checkCollissionEndboss();
         }, 300);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             // Check Collisions Items
             this.checkCollissionCoins();
             this.checkCollissionBottles();
             this.checkBottleHitsEndboss();
         }, 100);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             // Check Throw Bottle
             this.checkThrowableObjects();
         }, 100);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             // Check jump on Enemies
             this.checkJumpOnEnemies();
             this.checkJumpOnSmallEnemies();
         }, 1000 / 80);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.checkGameEnd();
         }, 1000);
     }

@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let muteSound = false;
+let allIntervals = [];
 
 
 function init() {
@@ -10,10 +11,16 @@ function init() {
     world = new World(canvas, keyboard);
 }
 
+function setStoppableInterval(fn, time) {
+    let id = setInterval(fn, time);
+    allIntervals.push(id);
+}
+
 function startGame() {
     hideContainer('home-screen');
     hideContainer('start-button');
     showContainer('restart-button');
+    showContainer('pause-button');
     showContainer('canvas');
     showContainer('img-volume');
     init();
@@ -41,8 +48,42 @@ function restartGame() {
     init();
 }
 
+function pauseGame() {
+    showContainer('start-after-pause-button');
+    hideContainer('pause-button');
+    allIntervals.forEach(clearInterval);
+    world.background_sound.pause();
+    muteSound = false;
+}
+
+function startGameAfterPause() {
+    showContainer('pause-button');
+    hideContainer('start-after-pause-button');
+    playIntervals();
+    world.background_sound.play();
+    muteSound = true;
+}
+
+function playIntervals() {
+    world.runIntervals();
+    world.character.animate();
+    world.endboss.animate();
+    world.level.enemies.forEach(enemy => {
+        enemy.animate();
+    });
+    world.level.smallEnemies.forEach(enemy => {
+        enemy.animate();
+    });
+    world.level.clouds.forEach(cloud => {
+        cloud.animate();
+    });
+    world.level.coins.forEach(cloud => {
+        cloud.animate();
+    });
+}
+
 function homeScreen() {
-    location.reload();
+    window.location.reload();
 }
 
 function infoScreen() {
