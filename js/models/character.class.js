@@ -98,27 +98,15 @@ class Character extends MovableObject {
 
     moveCharacter() {
         world.walking_sound.pause();
-        if (this.world.keyboard.right && this.posX < this.world.level.level_end_x && !this.isDead()) {
-            this.stopMovementTimer = 0;
-            this.moveRight();
-            this.otherDirection = false;
-            if(!this.isAboveGround()) {
-                world.walking_sound.play();
-            }
+        if (this.canMoveRight()) {
+            this.moveCharacterRight();
         }
-        if (this.world.keyboard.left && this.posX > 0 && !this.isDead()) {
-            this.stopMovementTimer = 0;
-            this.moveLeft();
-            this.otherDirection = true;
-            if(!this.isAboveGround()) {
-                world.walking_sound.play();
-            }
+        if (this.canMoveLeft()) {
+            this.moveCharacterLeft();
         }
 
-        if (this.world.keyboard.up && !this.isAboveGround() && !this.isDead() || this.world.keyboard.spacebar && !this.isAboveGround() && !this.isDead()) {
-            this.stopMovementTimer = 0;
-            this.jump();
-            world.jumping_sound.play();
+        if (this.canMoveJump()) {
+            this.moveCharacterJump();
         }
         this.world.camera_x = -this.posX + 100; // Moves the camera with the Character / + 100 to the right (character)
     }
@@ -140,8 +128,51 @@ class Character extends MovableObject {
     }
 
     /**
-     * After 10 seconds IMAGES_LONG_IDLE animation will play.
-     * @returns -true
+     * Checks whether the character can walk in the desired direction.
+     * @returns {boolean} - true or false
+     */
+    canMoveRight() {
+        return this.world.keyboard.right && this.posX < this.world.level.level_end_x && !this.isDead();
+    }
+
+    canMoveLeft() {
+        return this.world.keyboard.left && this.posX > 0 && !this.isDead();
+    }
+
+    canMoveJump() {
+        return this.world.keyboard.up && !this.isAboveGround() && !this.isDead() || this.world.keyboard.spacebar && !this.isAboveGround() && !this.isDead();
+    }
+
+    /**
+     * Character Movement functions.
+     */
+    moveCharacterRight() {
+        this.stopMovementTimer = 0;
+        this.moveRight();
+        this.otherDirection = false;
+        if(!this.isAboveGround()) {
+            world.walking_sound.play();
+        }
+    }
+
+    moveCharacterLeft() {
+        this.stopMovementTimer = 0;
+        this.moveLeft();
+        this.otherDirection = true;
+        if(!this.isAboveGround()) {
+            world.walking_sound.play();
+        }
+    }
+
+    moveCharacterJump() {
+        this.stopMovementTimer = 0;
+        this.jump();
+        world.jumping_sound.play();
+    }
+
+    /**
+     * After ca. 10 seconds IMAGES_LONG_IDLE animation will play.
+     * @returns {boolean} -true
      */
     checkStopMovementTimer() {
         this.stopMovementTimer += 1;

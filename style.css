@@ -36,6 +36,7 @@ body {
 }
 
 canvas {
+  display: block;
   background-color: black;
 }
 
@@ -63,6 +64,17 @@ button:hover {
   background-color: rgb(248, 215, 153);
   scale: 1.1;
 }*/
+
+:fullscreen {
+  background-color: black;
+  padding: 10%;
+  box-sizing: border-box;
+}
+
+.fullscreen-size {
+  height: 67vh;
+  width: 100%;
+}
 
 .d-none {
   display: none;
@@ -125,7 +137,7 @@ button:hover {
 .info-controlls {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 20px;
 }
 
 .info-controlls-child {
@@ -140,7 +152,7 @@ button:hover {
 }
 
 .game-rules {
-  margin: 16px 64px 0px 64px;
+  margin: 0px 64px 16px 64px;
 }
 
 .pos-abs {

@@ -69,11 +69,11 @@ class Endboss extends MovableObject {
     }
 
     moveEndboss() {
-        if (this.distanceEndbossCharacter() < 500 && this.distanceEndbossCharacter() > 30 && !this.isDead()) {
+        if (this.canMoveLeft()) {
             this.moveLeft();
             this.otherDirection = false;
         }
-        if (this.distanceEndbossCharacter() > -700 && this.distanceEndbossCharacter() < -200 && !this.isDead()) {
+        if (this.canMoveRight()) {
             this.moveRight();
             this.otherDirection = true;
         }
@@ -94,12 +94,31 @@ class Endboss extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the endboss has to move left or right.
+     * @returns {boolean} - true or false
+     */
+    canMoveRight() {
+        return this.distanceEndbossCharacter() > -700 && this.distanceEndbossCharacter() < -200 && !this.isDead();
+    }
+
+    canMoveLeft() {
+        return this.distanceEndbossCharacter() < 500 && this.distanceEndbossCharacter() > 30 && !this.isDead();
+    }
+
+    /**
+     * Endboss fall "animation".
+     */
     endbossFall() {
         setInterval(() => {
             this.posY += 2.5;
         }, 1000 / 60);
     }
 
+    /**
+     * Calculates the distance to the character.
+     * @returns {boolean} - true or false
+     */
     distanceEndbossCharacter() {
         return this.posX - world.character.posX;
     }

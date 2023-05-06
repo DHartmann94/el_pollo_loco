@@ -37,7 +37,7 @@ class World {
     }
 
     /**
-     * We can access the world class from the character class.
+     * This allows you to access the world class from the character class.
      */
     setWorld() {
         this.character.world = this; // verknüft die world (wegen keyboard) mit character.

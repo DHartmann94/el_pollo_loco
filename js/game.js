@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let muteSound = false;
-let allIntervals = [];
+let stoppableIntervals = [];
 
 
 function init() {
@@ -17,7 +17,7 @@ function setStoppableInterval(fn, time) {
         time: time,
         id: setInterval(fn, time)
       };
-      allIntervals.push(interval);
+      stoppableIntervals.push(interval);
 }
 
 function startGame() {
@@ -74,8 +74,35 @@ function startGameAfterPause() {
     world.background_sound.play();
 }
 
+function fullscreenOpen() {
+    let fullscreen = document.getElementById('fullscreen');
+    document.getElementById('canvas').classList.add('fullscreen-size');
+    document.querySelector('h1').classList.add('d-none');
+    enterFullscreen(fullscreen);
+}
+
+function enterFullscreen(element) {
+    if(element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+      element.msRequestFullscreen();
+    } else if(element.webkitRequestFullscreen) {  // iOS Safari
+      element.webkitRequestFullscreen();
+    }
+  }
+
+  function exitFullscreen() {
+    document.getElementById('canvas').classList.remove('fullscreen-size');
+    document.querySelector('h1').classList.remove('d-none');
+    if(document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if(document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+
 function pauseIntervals() {
-    allIntervals.forEach(interval => clearInterval(interval.id));
+    stoppableIntervals.forEach(interval => clearInterval(interval.id));
 
     /* ALter-Code
     world.runIntervals();
@@ -96,7 +123,7 @@ function pauseIntervals() {
 }
 
 function playIntervals() {
-    allIntervals.forEach(interval => interval.id = setInterval(interval.fn, interval.time));
+    stoppableIntervals.forEach(interval => interval.id = setInterval(interval.fn, interval.time));
 }
 
 function homeScreen() {
@@ -134,7 +161,7 @@ function hideLoader() {
 
 function clearAllIntervals() {
     pauseIntervals();
-    allIntervals = [];
+    stoppableIntervals = [];
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
