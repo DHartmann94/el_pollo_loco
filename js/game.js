@@ -76,9 +76,35 @@ function startGameAfterPause() {
 
 function fullscreenOpen() {
     let fullscreen = document.getElementById('fullscreen');
-    document.getElementById('canvas').classList.add('fullscreen-size');
+    hideContainer('img-fullscreen');
+    showContainer('img-fullscreen-close');
+    showFullscreenSize('canvas');
+    showFullscreenSize('home-screen');
+    showFullscreenSize('loader');
+    showFullscreenSize('lose-screen');
+    showFullscreenSize('game-over-screen');
     document.querySelector('h1').classList.add('d-none');
     enterFullscreen(fullscreen);
+}
+
+function showFullscreenSize(id) {
+    document.getElementById(`${id}`).classList.add('fullscreen-size');
+}
+
+function hideFullscreenSize(id) {
+    document.getElementById(`${id}`).classList.remove('fullscreen-size');
+}
+
+function fullscreenClose() {
+    hideContainer('img-fullscreen-close');
+    showContainer('img-fullscreen');
+    hideFullscreenSize('canvas');
+    hideFullscreenSize('home-screen');
+    hideFullscreenSize('loader');
+    hideFullscreenSize('lose-screen');
+    hideFullscreenSize('game-over-screen');
+    document.querySelector('h1').classList.remove('d-none');
+    exitFullscreen();
 }
 
 function enterFullscreen(element) {
@@ -92,8 +118,6 @@ function enterFullscreen(element) {
   }
 
   function exitFullscreen() {
-    document.getElementById('canvas').classList.remove('fullscreen-size');
-    document.querySelector('h1').classList.remove('d-none');
     if(document.exitFullscreen) {
       document.exitFullscreen();
     } else if(document.webkitExitFullscreen) {

@@ -72,8 +72,8 @@ button:hover {
 }
 
 .fullscreen-size {
-  height: 67vh;
-  width: 100%;
+  height: 67vh !important;
+  width: 100% !important;
 }
 
 .d-none {
