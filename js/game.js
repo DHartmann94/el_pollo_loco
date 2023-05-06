@@ -12,8 +12,12 @@ function init() {
 }
 
 function setStoppableInterval(fn, time) {
-    let id = setInterval(fn, time);
-    allIntervals.push(id);
+    let interval = {
+        fn: fn,
+        time: time,
+        id: setInterval(fn, time)
+      };
+      allIntervals.push(interval);
 }
 
 function startGame() {
@@ -31,6 +35,7 @@ function youLoseScreen() {
     clearAllIntervals();
     hideContainer('canvas');
     hideContainer('pause-button');
+    hideContainer('start-after-pause-button');
     showContainer('lose-screen');
 }
 
@@ -38,6 +43,7 @@ function gameOverScreen() {
     clearAllIntervals();
     hideContainer('canvas');
     hideContainer('pause-button');
+    hideContainer('start-after-pause-button');
     showContainer('game-over-screen');
 }
 
@@ -45,7 +51,10 @@ function restartGame() {
     hideLoader();
     hideContainer('lose-screen');
     hideContainer('game-over-screen');
+    hideContainer('start-after-pause-button');
+    showContainer('pause-button');
     showContainer('canvas');
+    world.background_sound.pause();
     clearAllIntervals();
     init();
 }
@@ -53,9 +62,9 @@ function restartGame() {
 function pauseGame() {
     hideContainer('pause-button');
     showContainer('start-after-pause-button');
-    allIntervals.forEach(clearInterval);
+
+    pauseIntervals();
     world.background_sound.pause();
-    muteSound = false;
 }
 
 function startGameAfterPause() {
@@ -63,10 +72,12 @@ function startGameAfterPause() {
     hideContainer('start-after-pause-button');
     playIntervals();
     world.background_sound.play();
-    muteSound = true;
 }
 
-function playIntervals() {
+function pauseIntervals() {
+    allIntervals.forEach(interval => clearInterval(interval.id));
+
+    /* ALter-Code
     world.runIntervals();
     world.character.animate();
     world.endboss.animate();
@@ -81,7 +92,11 @@ function playIntervals() {
     });
     world.level.coins.forEach(cloud => {
         cloud.animate();
-    });
+    });*/
+}
+
+function playIntervals() {
+    allIntervals.forEach(interval => interval.id = setInterval(interval.fn, interval.time));
 }
 
 function homeScreen() {
@@ -118,6 +133,8 @@ function hideLoader() {
 }
 
 function clearAllIntervals() {
+    pauseIntervals();
+    allIntervals = [];
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
