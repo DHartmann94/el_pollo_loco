@@ -45,6 +45,10 @@ function homeScreen() {
     location.reload();
 }
 
+function infoScreen() {
+    document.getElementById('info-screen').classList.toggle('d-none');
+}
+
 function volumeOff() {
     muteSound = true;
     world.volumeSounds(); // oder ein interval in der world?

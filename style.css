@@ -37,7 +37,6 @@ body {
 
 canvas {
   background-color: black;
-  /*TEST !!!!!!!!!!!!!!*/
 }
 
 h1 {
@@ -80,6 +79,12 @@ button:hover {
   scale: 1.1;
 }
 
+.img-keyboard-img {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+
 .main-container {
   position: relative;
   display: flex;
@@ -106,6 +111,44 @@ button:hover {
   height: 100%;
 }
 
+.info-screen {
+  width: 720px;
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Helvetica, sans-serif;
+  background: radial-gradient(grey, transparent);
+}
+
+.info-controlls {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.info-controlls-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.game-rules {
+  margin: 16px 64px 0px 64px;
+}
+
+.pos-abs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
 .loader {
   position: absolute;
   top: 50%;
@@ -117,7 +160,7 @@ button:hover {
   flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(10px);
+  background: radial-gradient(grey, transparent);
   transition: opacity 0, 75s, visibility 0.75s;
   z-index: 99;
 }

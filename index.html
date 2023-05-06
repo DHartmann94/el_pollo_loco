@@ -38,6 +38,10 @@
     <div class="main-container">
         <h1>El Pollo Loco</h1>
 
+        <div id="loader" class="loader loader-hidden">
+            <span>Loading ...</span>
+        </div>
+
         <div id="home-screen" class="screen">
             <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Home Screen">
         </div>
@@ -45,29 +49,74 @@
         <div id="lose-screen" class="screen d-none">
             <img src="img/9_intro_outro_screens/game_over/youLoseSelf.png" alt="You Lose">
         </div>
-    
+
         <div id="game-over-screen" class="screen d-none">
             <img src="img/9_intro_outro_screens/game_over/gameOverSelf.png" alt="Game Over">
         </div>
 
-        <div id="loader" class="loader loader-hidden">
-            <span>Loading ...</span>
+        <div id="info-screen" class="pos-abs d-none">
+            <div class="info-screen pos-abs d-none">
+                <div class="info-controlls">
+                    <div class="info-controlls-child">
+                        <div>
+                            <img class="img-keyboard-img" src="img/10_other/arrow_left.png" alt="Left">
+                        </div>
+                        <span class="text-center">
+                            Move-Left
+                        </span>
+                    </div>
+                    <div class="info-controlls-child">
+                        <div>
+                            <img class="img-keyboard-img" src="img/10_other/arrow_right.png" alt="Right">
+                        </div>
+                        <span class="text-center">
+                            Move-Right
+                        </span>
+                    </div>
+                    <div class="info-controlls-child">
+                        <div>
+                            <img class="img-keyboard-img" src="img/10_other/arrow_up.png" alt="Up">
+                            <img class="img-keyboard-img" src="img/10_other/space.png" alt="Spacebar">
+                        </div>
+                        <span class="text-center">
+                            Jump
+                        </span>
+                    </div>
+                    <div class="info-controlls-child">
+                        <div>
+                            <img class="img-keyboard-img" src="img/10_other/bottle.png" alt="Bottle">
+                        </div>
+                        <span class="text-center">
+                            D / Throw
+                        </span>
+                    </div>
+                </div>
+                <div class="game-rules">
+                    <h2>
+                        Game-Rules
+                    </h2>
+                    <div>
+                        In this 2D jump and run game you have to throw off the final boss with 5 bottles.
+                        This defeats him and you win the game.
+                    </div>
+                </div>
+            </div>
         </div>
-    
+
         <canvas id="canvas" class="d-none" width="720px" height="480px"></canvas>
 
         <div class="button-container">
             <div>
-                <img class="img-button" src="img/10_other/info.png" alt="Info">
+                <img onclick="infoScreen()" class="img-button" src="img/10_other/info.png" alt="Info">
             </div>
             <div>
-                <img onclick="homeScreen()" class="img-button"  src="img/10_other/home.png" alt="Home">
+                <img onclick="homeScreen()" class="img-button" src="img/10_other/home.png" alt="Home">
                 <img onclick="startGame()" id="start-button" class="img-button" src="img/10_other/play.png" alt="Play">
                 <img onclick="restartGame()" id="restart-button" class="img-button d-none" src="img/10_other/reload.png" alt="Reload">
             </div>
             <div>
-                <img onclick="volumeOff()" id="img-volume" class="img-button d-none"  src="img/10_other/volume.png" alt="Volume">
-                <img onclick="volumeOn()" id="img-mute" class="img-button d-none"  src="img/10_other/mute.png" alt="Mute">
+                <img onclick="volumeOff()" id="img-volume" class="img-button d-none" src="img/10_other/volume.png" alt="Volume">
+                <img onclick="volumeOn()" id="img-mute" class="img-button d-none" src="img/10_other/mute.png" alt="Mute">
             </div>
         </div>
     </div>
