@@ -31,8 +31,10 @@ body {
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 canvas {
@@ -42,6 +44,13 @@ canvas {
 
 h1 {
   font-size: 64px;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin: 5px 5px 5px 5px;
+}
+
+h2 {
+  font-size: 32px;
   letter-spacing: 3px;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
   margin: 5px 5px 5px 5px;
@@ -81,9 +90,9 @@ button:hover {
 }
 
 .img-button {
-  width: 40px;
-  height: 40px;
-  margin: 16px 10px 16px 10px;
+  width: 30px;
+  height: 30px;
+  margin: 0px 10px 0px 10px;
   cursor: pointer;
 }
 
@@ -99,21 +108,53 @@ button:hover {
 
 .main-container {
   position: relative;
-  display: flex;
+  max-width: 720px;
+  max-height: 480px;
+  display: block;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .button-container {
+  position: absolute;
+  left:0;
+  bottom: 0;
   width: 100%;
-  margin: 0px 16px 0px 16px;
+  height: 10%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.responsive-button-container {
+  display: none;
+}
+
+.rotate-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('img/10_other/canyon_bg.png') no-repeat center center fixed;
+  background-size: cover;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotate-screen img {
+  width: 300px;
 }
 
 .screen {
-  width: 720px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   animation: zoomIn 500ms ease-in-out;
   z-index: 2;
 }
@@ -124,8 +165,8 @@ button:hover {
 }
 
 .info-screen {
-  width: 720px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -157,9 +198,10 @@ button:hover {
 
 .pos-abs {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 3;
 }
 
@@ -168,15 +210,15 @@ button:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 720px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   background: radial-gradient(grey, transparent);
   transition: opacity 0, 75s, visibility 0.75s;
-  z-index: 99;
+  z-index: 50;
 }
 
 .loader span {
@@ -213,7 +255,62 @@ button:hover {
   from {
     transform: rotate(0turn);
   }
+
   to {
     transform: rotate(1turn);
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+
+  h1 {
+    display: none;
+  } 
+
+  .main-container {
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 720 / 480;
+  }
+
+  .fullscreen-dnone {
+    display: none;
+  }
+
+  .responsive-button-container {
+    display: flex;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+
+  h1 {
+    display: none;
+  } 
+
+  .main-container {
+    max-width: 100%;
+    max-height: 100%;
+    aspect-ratio: 720 / 480;
+  }
+
+  .fullscreen-dnone {
+    display: none;
+  }
+
+  .responsive-button-container {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .fullscreen-dnone {
+    display: none;
   }
 }

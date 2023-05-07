@@ -2,7 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let muteSound = false;
-let isFullscreenOpen = false;
+let isFullscreenActive = false;
 let stoppableIntervals = [];
 
 
@@ -76,7 +76,7 @@ function startGameAfterPause() {
 }
 
 function fullscreenOpenAndClose() {
-    if(isFullscreenOpen) {
+    if(isFullscreenActive) {
         hideFullscreenSize('canvas');
         hideFullscreenSize('home-screen');
         hideFullscreenSize('loader');
@@ -84,7 +84,7 @@ function fullscreenOpenAndClose() {
         hideFullscreenSize('game-over-screen');
         document.querySelector('h1').classList.remove('d-none');
         exitFullscreen(); 
-        isFullscreenOpen = false;
+        isFullscreenActive = false;
     } else {
         let fullscreen = document.getElementById('fullscreen');
         showFullscreenSize('canvas');
@@ -94,11 +94,11 @@ function fullscreenOpenAndClose() {
         showFullscreenSize('game-over-screen');
         document.querySelector('h1').classList.add('d-none');
         enterFullscreen(fullscreen);
-        isFullscreenOpen = true;
+        isFullscreenActive = true;
     }
 }
 
-/*
+/* TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function fullscreenClose() {
     hideContainer('img-fullscreen-close');
     showContainer('img-fullscreen');
@@ -135,7 +135,7 @@ function enterFullscreen(element) {
 
   document.addEventListener('fullscreenchange', function() {
     if (document.fullscreenElement === null) {
-        isFullscreenOpen = true;
+        isFullscreenActive = true;
         fullscreenOpenAndClose();
     }
   });
@@ -193,6 +193,16 @@ function showLoader() {
         document.getElementById('loader').classList.add('loader-hidden');
     }, 1000);
 }
+
+function rotatePhoneMessage() {
+    if (screen.orientation.type === 'portrait-primary') {
+        showContainer('rotate-screen');
+      } else {
+        hideContainer('rotate-screen');
+      }
+}
+
+window.addEventListener('orientationchange', rotatePhoneMessage);
 
 function hideLoader() {
     document.getElementById('loader').classList.add('loader-hidden');
