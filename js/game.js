@@ -6,12 +6,20 @@ let isFullscreenActive = false;
 let stoppableIntervals = [];
 
 
+/**
+ * Initializes the game by initializing the level and creating a world-object.
+ */
 function init() {
     initLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
 
+/**
+ * Set an interval that can be stopped later.
+ * @param {Function} fn - setInterval function.
+ * @param {Number} time - The duration time.
+ */
 function setStoppableInterval(fn, time) {
     let interval = {
         fn: fn,
@@ -19,6 +27,15 @@ function setStoppableInterval(fn, time) {
         id: setInterval(fn, time)
       };
       stoppableIntervals.push(interval);
+}
+
+/**
+ * Stop all intervals in the game.
+ */
+function clearAllIntervals() {
+    pauseIntervals();
+    stoppableIntervals = [];
+    for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
 function startGame() {
@@ -175,14 +192,14 @@ function infoScreen() {
 
 function volumeOff() {
     muteSound = true;
-    world.volumeSounds(); // oder ein interval in der world?
+    world.volumeSounds();
     hideContainer('img-volume');
     showContainer('img-mute');
 }
 
 function volumeOn() {
     muteSound = false;
-    world.volumeSounds(); // oder ein interval in der world?
+    world.volumeSounds();
     hideContainer('img-mute');
     showContainer('img-volume');
 }
@@ -194,7 +211,35 @@ function showLoader() {
     }, 1000);
 }
 
-function rotatePhoneMessage() {
+/**
+ * Check if the device is a mobile-device and show or hide the mobile-buttons.
+ */
+function checkMobile() {
+    if (isMobileDevice()) {
+        showMobileButton();
+        phoneRotateMessage();
+    } else {
+        phoneRotateMessage();
+        hideMobileButton();
+    }
+}
+
+function showMobileButton() {
+    showContainer('responsive-button-container');
+    showContainer('responsive-button-container-two');
+    hideContainer('fullscreen-button-container');
+}
+
+function hideMobileButton() {
+    showContainer('fullscreen-button-container');
+    hideContainer('responsive-button-container');
+    hideContainer('responsive-button-container-two');
+}
+
+/**
+ * Shows a message if the mobile-device is in the portrait-modus.
+ */
+function phoneRotateMessage() {
     if (screen.orientation.type === 'portrait-primary') {
         showContainer('rotate-screen');
       } else {
@@ -202,18 +247,29 @@ function rotatePhoneMessage() {
       }
 }
 
-window.addEventListener('orientationchange', rotatePhoneMessage);
-
-function hideLoader() {
-    document.getElementById('loader').classList.add('loader-hidden');
+/**
+ * Check if the device is a mobile-device.
+ * @returns {boolean} - true = is mobile
+ */
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-function clearAllIntervals() {
-    pauseIntervals();
-    stoppableIntervals = [];
-    for (let i = 1; i < 9999; i++) window.clearInterval(i);
-}
+/**
+ * Adds event listeners for the 'orientationchange', 'load', and 'resize' events and calls the 'checkMobile' function.
+ * @event orientationchange - Event fired when the orientation of the device changes.
+ * @event load - Event fired when the page is finished loading.
+ * @event resize - Event fired when the window is resized.
+ * 
+ */
+window.addEventListener('orientationchange', checkMobile);
+window.addEventListener('load', checkMobile);
+window.addEventListener('resize', checkMobile);
 
+/**
+ * Help-Functions
+ * @param {String} id - The id to be changed.
+ */
 function showContainer(id) {
     document.getElementById(`${id}`).classList.remove('d-none');
 }
@@ -230,6 +286,14 @@ function hideFullscreenSize(id) {
     document.getElementById(`${id}`).classList.remove('fullscreen-size');
 }
 
+function hideLoader() {
+    document.getElementById('loader').classList.add('loader-hidden');
+}
+
+/**
+ * This event listener is triggered when a key is pressed down on the keyboard. 
+ * It updates the values of the corresponding keys in the keyboard object to TRUE based on the key code
+ */
 window.addEventListener("keydown", (event) => {
     if (event.keyCode === 38) {
         keyboard.up = true;
@@ -251,6 +315,10 @@ window.addEventListener("keydown", (event) => {
     }
 });
 
+/**
+ * This event listener is triggered when a key is pressed down on the keyboard. 
+ * It updates the values of the corresponding keys in the keyboard object to FALSE based on the key code
+ */
 window.addEventListener("keyup", (event) => {
     if (event.keyCode === 38) {
         keyboard.up = false;

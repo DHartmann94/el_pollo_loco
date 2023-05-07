@@ -28,7 +28,7 @@ class World {
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
-        this.canvas = canvas; //1. canvas in world.js 2. canvas in game.js
+        this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
@@ -40,7 +40,7 @@ class World {
      * This allows you to access the world class from the character class.
      */
     setWorld() {
-        this.character.world = this; // verknüft die world (wegen keyboard) mit character.
+        this.character.world = this;
     }
 
     /**
@@ -60,6 +60,7 @@ class World {
         } else {
             this.background_sound.volume = 0.1;
             this.background_sound.play();
+            this.background_sound.loop = true;
             this.winning_sound.volume = 0.1;
             this.coin_sound.volume = 0.03;
             this.chicken_sound.volume = 0.1;
