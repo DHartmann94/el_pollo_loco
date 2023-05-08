@@ -11,9 +11,9 @@ class DrawableObject {
         left: 0
     };
 
-    img; // hier wird das Bild reingeladen und angezeigt.
-    imageCache = {}; // hier werden die animate bilder reingeladen.
-    currentImage = 0; // wählt das Bild in der animate function aus.
+    img;
+    imageCache = {};
+    currentImage = 0;
 
 
     /**
@@ -47,7 +47,8 @@ class DrawableObject {
 
     
     /* ----- Help functions to develop the game! ----- */
-    // Is called in the "addToMap(movableObj);".
+    // Is called in the "addToMap(object);".
+    /*
     drawFrame(ctx) {
         if (this.selectedMovableObjects()) {
             ctx.beginPath();
@@ -60,5 +61,5 @@ class DrawableObject {
 
     selectedMovableObjects() {
         return this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Bottle || this instanceof Coin || this instanceof ThrowableObject;
-    }
+    }*/
 }

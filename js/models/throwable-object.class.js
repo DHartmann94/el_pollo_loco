@@ -31,11 +31,10 @@ class ThrowableObject extends MovableObject {
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
         this.loadImages(this.IMAGES_BOTTLE_SPLASH);
 
+        this.throw();
         this.posX = x;
         this.posY = y;
         this.otherDirection = otherDirection;
-
-        this.throw();
     }
 
     throw() {

@@ -111,45 +111,52 @@ class World {
         this.addToMap(this.statusBarEndboss);
     }
 
+    /**
+     * Adds the given array(from level.js) of objects to the canvas by calling `addToMap` for each object.
+     * @param {Object} objects - Array
+     */
     addObjectsToMap(objects) { // für die arrays
         objects.forEach((object) => {
             this.addToMap(object);
         });
     }
 
-    addToMap(movableObj) {
-        if (movableObj.otherDirection) {
-            //wenn true wird das Bild vom Pepe gedreht.
-            this.mirrorImage(movableObj);
+    /**
+     * Adds the given object to the canvas, including mirroring the image if necessary.
+     * @param {Object} object - The object that will be draw in the canvas.
+     */
+    addToMap(object) {
+        if (object.otherDirection) {
+            this.mirrorImage(object);
         }
 
-        movableObj.draw(this.ctx);
-        movableObj.drawFrame(this.ctx);
+        object.draw(this.ctx);
+        //object.drawFrame(this.ctx); // Help functions to develop the game! (DrawableObject.class)
 
-        if (movableObj.otherDirection) {
-            this.mirrorImageBack(movableObj);
+        if (object.otherDirection) {
+            this.mirrorImageBack(object);
         }
     }
 
     /**
      * Rotate the Image if you walk to the left (otherDirection = true).
-     * @param {Object} movableObj - The individual classes.
+     * @param {Object} object - The individual classes.
      */
-    mirrorImage(movableObj) {
+    mirrorImage(object) {
         this.ctx.save(); // einstellung vom context werden gespeichert.
-        this.ctx.translate(movableObj.width, 0); // Bild wird gedreht.
+        this.ctx.translate(object.width, 0); // Bild wird gedreht.
         this.ctx.scale(-1, 1); // Bild wird ein Stück verschoben (richtig positioniert)
-        movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse (character wird sonst auf die andere seite teleportiert.)
+        object.posX = object.posX * -1; // invertiert die x-Achse (character wird sonst auf die andere seite teleportiert.)
     }
 
     /**
      * Prevents images that should not be mirrored from being mirrored.
-     * @param {Object} movableObj - The individual classes.
+     * @param {Object} object - The individual classes.
      */
-    mirrorImageBack(movableObj) {
+    mirrorImageBack(object) {
         // verhindert das die Bilder die sich nicht spiegeln soll das auch nicht machen.
         this.ctx.restore();
-        movableObj.posX = movableObj.posX * -1; // invertiert die x-Achse
+        object.posX = object.posX * -1; // invertiert die x-Achse
     }
 
     /**
@@ -233,7 +240,7 @@ class World {
      */
     checkJumpOnEnemies() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
+            if (this.validateJumpOnEnemy(enemy)) {
                 this.killEnemy(enemy);
 
                 setTimeout(() => {
@@ -245,7 +252,7 @@ class World {
 
     checkJumpOnSmallEnemies() {
         this.level.smallEnemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead) {
+            if (this.validateJumpOnEnemy(enemy)) {
                 this.killEnemy(enemy);
 
                 setTimeout(() => {
@@ -253,6 +260,10 @@ class World {
                 }, 1000);
             }
         })
+    }
+
+    validateJumpOnEnemy(enemy) {
+        return this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead;
     }
 
     /**

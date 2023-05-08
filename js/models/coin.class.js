@@ -17,8 +17,8 @@ class Coin extends MovableObject {
     constructor(x) {
         super().loadImage("img/8_coin/coin_1.png");
         this.loadImages(this.IMAGES_COINS);
-        this.animate();
 
+        this.animate();
         this.posX =  x;
     }
 

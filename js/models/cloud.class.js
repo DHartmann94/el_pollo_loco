@@ -10,7 +10,6 @@ class Cloud extends MovableObject {
         super().loadImage(imagePath);
 
         this.animate();
-
         this.posX = x;
     }
 

@@ -12,6 +12,7 @@ class Bottle extends MovableObject {
 
   constructor(imagePath, x) {
     super().loadImage(imagePath);
+    
     this.posX = x;
   }
 }

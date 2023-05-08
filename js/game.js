@@ -37,6 +37,9 @@ function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+/**
+ * Displays the appropriate containers depending on the situation of the game.
+ */
 function startGame() {
     hideContainer('home-screen');
     hideContainer('start-button');
@@ -76,6 +79,9 @@ function restartGame() {
     init();
 }
 
+/**
+ * Pause or start all stoppableIntervals.
+ */
 function pauseGame() {
     hideContainer('pause-button');
     showContainer('start-after-pause-button');
@@ -91,41 +97,39 @@ function startGameAfterPause() {
     world.background_sound.play();
 }
 
+/**
+ * Toggles fullscreen mode on and off.
+ */
 function fullscreenOpenAndClose() {
     if(isFullscreenActive) {
-        hideFullscreenSize('canvas');
-        hideFullscreenSize('home-screen');
-        hideFullscreenSize('loader');
-        hideFullscreenSize('lose-screen');
-        hideFullscreenSize('game-over-screen');
+        closeFullscreen();
         document.querySelector('h1').classList.remove('d-none');
         exitFullscreen(); 
         isFullscreenActive = false;
     } else {
         let fullscreen = document.getElementById('fullscreen');
-        showFullscreenSize('canvas');
-        showFullscreenSize('home-screen');
-        showFullscreenSize('loader');
-        showFullscreenSize('lose-screen');
-        showFullscreenSize('game-over-screen');
+        openFullscreen();
         document.querySelector('h1').classList.add('d-none');
         enterFullscreen(fullscreen);
         isFullscreenActive = true;
     }
 }
 
-/* TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-function fullscreenClose() {
-    hideContainer('img-fullscreen-close');
-    showContainer('img-fullscreen');
+function closeFullscreen() {
     hideFullscreenSize('canvas');
     hideFullscreenSize('home-screen');
     hideFullscreenSize('loader');
     hideFullscreenSize('lose-screen');
     hideFullscreenSize('game-over-screen');
-    document.querySelector('h1').classList.remove('d-none');
-    exitFullscreen();
-}*/
+}
+
+function openFullscreen() {
+    showFullscreenSize('canvas');
+    showFullscreenSize('home-screen');
+    showFullscreenSize('loader');
+    showFullscreenSize('lose-screen');
+    showFullscreenSize('game-over-screen');
+}
 
 function enterFullscreen(element) {
     if(element.requestFullscreen) {
@@ -149,6 +153,9 @@ function enterFullscreen(element) {
       }
   }
 
+  /**
+   * Handles changes to the fullscreen state and updates the `isFullscreenActive` variable accordingly.
+   */
   document.addEventListener('fullscreenchange', function() {
     if (document.fullscreenElement === null) {
         isFullscreenActive = true;
@@ -158,6 +165,10 @@ function enterFullscreen(element) {
 
 function pauseIntervals() {
     stoppableIntervals.forEach(interval => clearInterval(interval.id));
+}
+
+function playIntervals() {
+    stoppableIntervals.forEach(interval => interval.id = setInterval(interval.fn, interval.time));
 
     /* ALter-Code
     world.runIntervals();
@@ -177,18 +188,20 @@ function pauseIntervals() {
     });*/
 }
 
-function playIntervals() {
-    stoppableIntervals.forEach(interval => interval.id = setInterval(interval.fn, interval.time));
-}
-
 function homeScreen() {
     window.location.reload();
 }
 
+/**
+ * Toggle the info-box.
+ */
 function infoScreen() {
     document.getElementById('info-screen').classList.toggle('d-none');
 }
 
+/**
+ * Plays or mutes the sound.
+ */
 function volumeOff() {
     muteSound = true;
     world.volumeSounds();
@@ -203,6 +216,9 @@ function volumeOn() {
     showContainer('img-volume');
 }
 
+/**
+ * Shows a loader when you first start the game.
+ */
 function showLoader() {
     document.getElementById('loader').classList.remove('loader-hidden');
     setTimeout(() => {
