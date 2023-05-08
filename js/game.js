@@ -24,8 +24,8 @@ function setStoppableInterval(fn, time) {
         fn: fn,
         time: time,
         id: setInterval(fn, time)
-      };
-      stoppableIntervals.push(interval);
+    };
+    stoppableIntervals.push(interval);
 }
 
 /**
@@ -101,10 +101,10 @@ function startGameAfterPause() {
  * Toggles fullscreen mode on and off.
  */
 function fullscreenOpenAndClose() {
-    if(isFullscreenActive) {
+    if (isFullscreenActive) {
         closeFullscreen();
         document.querySelector('h1').classList.remove('d-none');
-        exitFullscreen(); 
+        exitFullscreen();
         isFullscreenActive = false;
     } else {
         let fullscreen = document.getElementById('fullscreen');
@@ -132,36 +132,36 @@ function openFullscreen() {
 }
 
 function enterFullscreen(element) {
-    if(element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if(element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
-      element.msRequestFullscreen();
-    } else if(element.webkitRequestFullscreen) {  // iOS Safari
-      element.webkitRequestFullscreen();
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.msRequestFullscreen) {      // for IE11 (remove June 15, 2022)
+        element.msRequestFullscreen();
+    } else if (element.webkitRequestFullscreen) {  // iOS Safari
+        element.webkitRequestFullscreen();
     }
-  }
+}
 
-  function exitFullscreen() {
+function exitFullscreen() {
     if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
         if (document.exitFullscreen) {
-          document.exitFullscreen();
+            document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
+            document.webkitExitFullscreen();
         } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
+            document.msExitFullscreen();
         }
-      }
-  }
+    }
+}
 
-  /**
-   * Handles changes to the fullscreen state and updates the `isFullscreenActive` variable accordingly.
-   */
-  document.addEventListener('fullscreenchange', function() {
+/**
+ * Handles changes to the fullscreen state and updates the `isFullscreenActive` variable accordingly.
+ */
+document.addEventListener('fullscreenchange', function () {
     if (document.fullscreenElement === null) {
         isFullscreenActive = true;
         fullscreenOpenAndClose();
     }
-  });
+});
 
 function pauseIntervals() {
     stoppableIntervals.forEach(interval => clearInterval(interval.id));
@@ -232,9 +232,9 @@ function showLoader() {
 function checkMobile() {
     if (isMobileDevice()) {
         showMobileButton();
-        phoneRotateMessage();
+        portraitPhoneRotateMessage();
     } else {
-        phoneRotateMessage();
+        hideContainer('rotate-screen');
         hideMobileButton();
     }
 }
@@ -254,12 +254,18 @@ function hideMobileButton() {
 /**
  * Shows a message if the mobile-device is in the portrait-modus.
  */
-function phoneRotateMessage() {
-    if (screen.orientation.type === 'portrait-primary') {
+function portraitPhoneRotateMessage() {
+    /*if (screen.orientation.type === 'portrait-primary') {
         showContainer('rotate-screen');
-      } else {
+    } else {
         hideContainer('rotate-screen');
-      }
+    }*/
+
+    if (window.matchMedia("(orientation: portrait)").matches) {
+        showContainer('rotate-screen');
+    } else {
+        hideContainer('rotate-screen');
+    }
 }
 
 /**
