@@ -1,4 +1,5 @@
 class World {
+    keyboard = new Keyboard;
     character = new Character;
     endboss = new Endboss;
     throwableObject = [];
@@ -11,25 +12,24 @@ class World {
 
     background_sound = new Audio("audio/background_music.mp3");
     winning_sound = new Audio("audio/winning.mp3");
+    losing_sound = new Audio("audio/losing.mp3");
     coin_sound = new Audio("audio/coin.mp3");
     chicken_sound = new Audio("audio/chicken_dead.mp3");
     bottle_sound = new Audio("audio/bottle_plop.mp3");
-    // --- Pepe-Sounds --- //
+    // --- Character-Sounds --- //
     walking_sound = new Audio("audio/running.mp3");
     jumping_sound = new Audio("audio/jumping.mp3");
     hurt_sound = new Audio("audio/hurt_pepe.mp3");
 
-    canvas; // um canvas in der ganzen klasse nutzen zu können.
+    canvas;
     ctx;
-    camera_x; // Kamera position verschieben.
-    otherDirection = false; // spiegelt das Bild.
-    keyboard; // um keyboard in der ganzen klasse nutzen zu können.
+    camera_x; // Move camera position.
+    otherDirection = false;
 
 
-    constructor(canvas, keyboard) {
+    constructor(canvas) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.keyboard = keyboard;
         this.draw();
         this.setWorld();
         this.volumeSounds();
@@ -50,10 +50,11 @@ class World {
         if (muteSound) {
             this.background_sound.volume = 0;
             this.winning_sound.volume = 0;
+            this.losing_sound.volume = 0;
             this.coin_sound.volume = 0;
             this.chicken_sound.volume = 0;
             this.bottle_sound.volume = 0;
-            // --- Pepe-Sounds --- //
+            // --- Character-Sounds --- //
             this.walking_sound.volume = 0;
             this.jumping_sound.volume = 0;
             this.hurt_sound.volume = 0;
@@ -62,10 +63,11 @@ class World {
             this.background_sound.play();
             this.background_sound.loop = true;
             this.winning_sound.volume = 0.1;
+            this.losing_sound.volume = 0.1;
             this.coin_sound.volume = 0.03;
             this.chicken_sound.volume = 0.1;
             this.bottle_sound.volume = 0.1;
-            // --- Pepe-Sounds --- //
+            // --- Character-Sounds --- //
             this.walking_sound.volume = 0.2;
             this.jumping_sound.volume = 0.2;
             this.hurt_sound.volume = 0.2;
@@ -198,6 +200,7 @@ class World {
             setTimeout(() => {
                 youLoseScreen();
                 this.background_sound.volume = 0;
+                this.losing_sound.play();
             }, 1000);
         }
     }

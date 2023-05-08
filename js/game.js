@@ -1,6 +1,5 @@
 let canvas;
 let world;
-let keyboard = new Keyboard();
 let muteSound = false;
 let isFullscreenActive = false;
 let stoppableIntervals = [];
@@ -12,7 +11,7 @@ let stoppableIntervals = [];
 function init() {
     initLevel();
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas);
 }
 
 /**
@@ -289,53 +288,3 @@ function hideFullscreenSize(id) {
 function hideLoader() {
     document.getElementById('loader').classList.add('loader-hidden');
 }
-
-/**
- * This event listener is triggered when a key is pressed down on the keyboard. 
- * It updates the values of the corresponding keys in the keyboard object to TRUE based on the key code
- */
-window.addEventListener("keydown", (event) => {
-    if (event.keyCode === 38) {
-        keyboard.up = true;
-    }
-    if (event.keyCode === 39) {
-        keyboard.right = true;
-    }
-    if (event.keyCode === 40) {
-        keyboard.down = true;
-    }
-    if (event.keyCode === 37) {
-        keyboard.left = true;
-    }
-    if (event.keyCode === 32) {
-        keyboard.spacebar = true;
-    }
-    if (event.keyCode === 68) {
-        keyboard.d = true;
-    }
-});
-
-/**
- * This event listener is triggered when a key is pressed down on the keyboard. 
- * It updates the values of the corresponding keys in the keyboard object to FALSE based on the key code
- */
-window.addEventListener("keyup", (event) => {
-    if (event.keyCode === 38) {
-        keyboard.up = false;
-    }
-    if (event.keyCode === 39) {
-        keyboard.right = false;
-    }
-    if (event.keyCode === 40) {
-        keyboard.down = false;
-    }
-    if (event.keyCode === 37) {
-        keyboard.left = false;
-    }
-    if (event.keyCode === 32) {
-        keyboard.spacebar = false;
-    }
-    if (event.keyCode === 68) {
-        keyboard.d = false;
-    }
-});
