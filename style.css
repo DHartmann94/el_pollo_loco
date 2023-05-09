@@ -185,7 +185,7 @@ h2 {
   flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, rgba(238, 119, 82, 0.7), rgba(231, 185, 60, 0.7), rgba(213, 35, 35, 0.7), rgba(213, 35, 35, 0.7));
+  background: linear-gradient(-45deg, rgba(238, 119, 82, 1), rgba(231, 185, 60, 1), rgba(213, 35, 35, 1), rgba(213, 35, 35, 1));
   transition: opacity 0, 75s, visibility 0.75s;
   z-index: 50;
 }

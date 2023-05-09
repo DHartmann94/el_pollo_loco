@@ -93,7 +93,7 @@ function pauseGame() {
 function startGameAfterPause() {
     showContainer('pause-button');
     hideContainer('start-after-pause-button');
-    
+
     playIntervals();
     world.background_sound.play();
 }
@@ -207,7 +207,7 @@ function showLoader() {
     document.getElementById('loader').classList.remove('loader-hidden');
     setTimeout(() => {
         document.getElementById('loader').classList.add('loader-hidden');
-    }, 1000);
+    }, 1500);
 }
 
 /**
