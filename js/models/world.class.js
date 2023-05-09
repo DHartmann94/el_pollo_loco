@@ -166,18 +166,18 @@ class World {
     runIntervals() {
         setStoppableInterval(() => {
             // Check jump on Enemies
-            this.checkJumpOnEnemies();
-            this.checkJumpOnSmallEnemies();
+            this.checkJumpOnEnemies(this.level.enemies);
+            this.checkJumpOnEnemies(this.level.smallEnemies);
             // Check Collisions Enemies
-            this.checkCollisionEnemies();
-            this.checkCollissionSmallEnemies();
+            this.checkCollisionEnemies(this.level.enemies);
+            this.checkCollisionEnemies(this.level.smallEnemies);
             this.checkCollissionEndboss();
         }, 1000 / 60);
 
         setStoppableInterval(() => {
             // Check Collisions Items
-            this.checkCollissionCoins();
-            this.checkCollissionBottles();
+            this.collectItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
+            this.collectItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
             this.checkBottleHitsEndboss();
         }, 100);
 
@@ -238,25 +238,13 @@ class World {
      * Check if the character jump on an enemie,
      * Deletes the hit enemie after the setTimeout.
      */
-    checkJumpOnEnemies() {
-        this.level.enemies.forEach((enemy) => {
+    checkJumpOnEnemies(enemyType) {
+        enemyType.forEach((enemy) => {
             if (this.validateJumpOnEnemy(enemy)) {
                 this.killEnemy(enemy);
 
                 setTimeout(() => {
-                    this.deleteCorrectObject(enemy, this.level.enemies);
-                }, 1000);
-            }
-        })
-    }
-
-    checkJumpOnSmallEnemies() {
-        this.level.smallEnemies.forEach((enemy) => {
-            if (this.validateJumpOnEnemy(enemy)) {
-                this.killEnemy(enemy);
-
-                setTimeout(() => {
-                    this.deleteCorrectObject(enemy, this.level.smallEnemies);
+                    this.deleteCorrectObject(enemy, enemyType);
                 }, 1000);
             }
         })
@@ -306,59 +294,28 @@ class World {
 
     /**
      * Check the collision with a coin or bottle.
+     * @param {Array} items - The list of items to check for collision.
+     * @param {Number} maxAmount - The maximum amount of items the character can collect.
+     * @param {Function} sound - The sound to play when an item is collected.
+     * @param {Object} statusBar - The status bar to update.
+     * @param {String} propertyType - The property of the character object to update.
      */
-    checkCollissionCoins() {
-        this.level.coins.forEach((coin, index) => {
-            if (this.character.isColliding(coin)) {
-                this.collectCoins(index);
+    collectItems(items, maxAmount, sound, statusBar, propertyType) {
+        items.forEach((item, index) => {
+            if (this.character.isColliding(item) && this.character[propertyType] < maxAmount) {
+                sound.play();
+                this.character[propertyType] += 20;
+                this.changeStatusBarProgress(statusBar, this.character[propertyType]);
+                items.splice(index, 1);
             }
         });
-    }
-
-    checkCollissionBottles() {
-        this.level.bottles.forEach((bottle, index) => {
-            if (this.character.isColliding(bottle) && this.character.collectableBottles < 100) {
-                this.collectBottles(index);
-            }
-        });
-    }
-
-    /**
-     * Updated the status-bar from coin- or bottle-bar.
-     * Delete the collect coin or bottle from the array (canvas).
-     * @param {Number} index - The index of the collated coin or bottle.
-     */
-    collectCoins(index) {
-        if (this.character.collectableCoins < 100) {
-            this.coin_sound.play();
-            this.character.collectableCoins += 20;
-            this.changeStatusBarProgress(this.statusBarCoin, this.character.collectableCoins);
-            this.level.coins.splice(index, 1);
-        }
-    }
-
-    collectBottles(index) {
-        if (this.character.collectableBottles < 100) {
-            this.bottle_sound.play();
-            this.character.collectableBottles += 20;
-            this.changeStatusBarProgress(this.statusBarBottle, this.character.collectableBottles);
-            this.level.bottles.splice(index, 1);
-        }
     }
 
     /**
      * Check collision with an enemy.
      */
-    checkCollisionEnemies() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.characterTakesDamage(1);
-            }
-        });
-    }
-
-    checkCollissionSmallEnemies() {
-        this.level.smallEnemies.forEach((enemy) => {
+    checkCollisionEnemies(enemyType) {
+        enemyType.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !enemy.dead) {
                 this.characterTakesDamage(1);
             }

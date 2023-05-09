@@ -93,6 +93,7 @@ function pauseGame() {
 function startGameAfterPause() {
     showContainer('pause-button');
     hideContainer('start-after-pause-button');
+    
     playIntervals();
     world.background_sound.play();
 }
@@ -169,23 +170,6 @@ function pauseIntervals() {
 
 function playIntervals() {
     stoppableIntervals.forEach(interval => interval.id = setInterval(interval.fn, interval.time));
-
-    /* ALter-Code
-    world.runIntervals();
-    world.character.animate();
-    world.endboss.animate();
-    world.level.enemies.forEach(enemy => {
-        enemy.animate();
-    });
-    world.level.smallEnemies.forEach(enemy => {
-        enemy.animate();
-    });
-    world.level.clouds.forEach(cloud => {
-        cloud.animate();
-    });
-    world.level.coins.forEach(cloud => {
-        cloud.animate();
-    });*/
 }
 
 function homeScreen() {
