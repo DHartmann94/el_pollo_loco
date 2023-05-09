@@ -119,13 +119,13 @@
             </div>
             <div>
                 <img onclick="infoScreen()" class="img-button" src="img/10_other/info.png" alt="Info">
-                <img onclick="volumeOff()" id="img-volume" class="img-button d-none" src="img/10_other/volume.png" alt="Volume">
-                <img onclick="volumeOn()" id="img-mute" class="img-button d-none" src="img/10_other/mute.png" alt="Mute">
+                <img onclick="toggleVolume(true)" id="img-volume" class="img-button d-none" src="img/10_other/volume.png" alt="Volume">
+                <img onclick="toggleVolume(false)" id="img-mute" class="img-button d-none" src="img/10_other/mute.png" alt="Mute">
             </div>
             <div>
                 <img onclick="homeScreen()" class="img-button" src="img/10_other/home.png" alt="Home">
-                <img onclick="pauseGame()" id="pause-button" class="img-button d-none" src="img/10_other/pause.png" alt="Pause">
-                <img onclick="startGameAfterPause()" id="start-after-pause-button" class="img-button d-none" src="img/10_other/play.png" alt="Play">
+                <img onclick="toggleGamePause(true)" id="pause-button" class="img-button d-none" src="img/10_other/pause.png" alt="Pause">
+                <img onclick="toggleGamePause(false)" id="start-after-pause-button" class="img-button d-none" src="img/10_other/play.png" alt="Play">
                 <img onclick="startGame()" id="start-button" class="img-button" src="img/10_other/play.png" alt="Play">
                 <img onclick="restartGame()" id="restart-button" class="img-button d-none" src="img/10_other/reload.png" alt="Reload">
             </div>

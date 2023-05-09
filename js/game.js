@@ -51,20 +51,16 @@ function startGame() {
     showLoader();
 }
 
-function youLoseScreen() {
+/**
+ * Displays the different ending screen.
+ * @param {String} endingScreen - The id from the ending Image.
+ */
+function gameOverScreen(endingScreen) {
     clearAllIntervals();
     hideContainer('canvas');
     hideContainer('pause-button');
     hideContainer('start-after-pause-button');
-    showContainer('lose-screen');
-}
-
-function gameOverScreen() {
-    clearAllIntervals();
-    hideContainer('canvas');
-    hideContainer('pause-button');
-    hideContainer('start-after-pause-button');
-    showContainer('game-over-screen');
+    showContainer(endingScreen);
 }
 
 function restartGame() {
@@ -81,21 +77,20 @@ function restartGame() {
 
 /**
  * Pause or start all stoppableIntervals.
+ * @param {Boolean} pause - True or false.
  */
-function pauseGame() {
-    hideContainer('pause-button');
-    showContainer('start-after-pause-button');
-
-    pauseIntervals();
-    world.background_sound.pause();
-}
-
-function startGameAfterPause() {
-    showContainer('pause-button');
-    hideContainer('start-after-pause-button');
-
-    playIntervals();
-    world.background_sound.play();
+function toggleGamePause(pause) {
+    if (pause) {
+        hideContainer('pause-button');
+        showContainer('start-after-pause-button');
+        pauseIntervals();
+        world.background_sound.pause();
+    } else {
+        showContainer('pause-button');
+        hideContainer('start-after-pause-button');
+        playIntervals();
+        world.background_sound.play();
+    }
 }
 
 /**
@@ -185,19 +180,13 @@ function infoScreen() {
 
 /**
  * Plays or mutes the sound.
+ * @param {Boolean} boolean - True or false.
  */
-function volumeOff() {
-    muteSound = true;
+function toggleVolume(boolean) {
+    muteSound = boolean;
     world.volumeSounds();
-    hideContainer('img-volume');
-    showContainer('img-mute');
-}
-
-function volumeOn() {
-    muteSound = false;
-    world.volumeSounds();
-    hideContainer('img-mute');
-    showContainer('img-volume');
+    hideContainer(boolean ? 'img-volume' : 'img-mute');
+    showContainer(boolean ? 'img-mute' : 'img-volume');
 }
 
 /**
@@ -207,7 +196,7 @@ function showLoader() {
     document.getElementById('loader').classList.remove('loader-hidden');
     setTimeout(() => {
         document.getElementById('loader').classList.add('loader-hidden');
-    }, 1500);
+    }, 1250);
 }
 
 /**

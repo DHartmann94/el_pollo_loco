@@ -1,7 +1,6 @@
 class World {
     keyboard = new Keyboard;
     character = new Character;
-    endboss = new Endboss;
     throwableObject = [];
     level = level1;
 
@@ -98,7 +97,7 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.smallEnemies);
-        this.addToMap(this.endboss);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObject);
@@ -143,10 +142,10 @@ class World {
      * @param {Object} object - The individual classes.
      */
     mirrorImage(object) {
-        this.ctx.save(); // einstellung vom context werden gespeichert.
-        this.ctx.translate(object.width, 0); // Bild wird gedreht.
-        this.ctx.scale(-1, 1); // Bild wird ein Stück verschoben (richtig positioniert)
-        object.posX = object.posX * -1; // invertiert die x-Achse (character wird sonst auf die andere seite teleportiert.)
+        this.ctx.save(); // Saves the context settings.
+        this.ctx.translate(object.width, 0); // Rotates the image.
+        this.ctx.scale(-1, 1); // Shifts the image to the right position.
+        object.posX = object.posX * -1; // Inverts the x-axis (character is otherwise teleported to the other side).
     }
 
     /**
@@ -154,9 +153,8 @@ class World {
      * @param {Object} object - The individual classes.
      */
     mirrorImageBack(object) {
-        // verhindert das die Bilder die sich nicht spiegeln soll das auch nicht machen.
         this.ctx.restore();
-        object.posX = object.posX * -1; // invertiert die x-Achse
+        object.posX = object.posX * -1;
     }
 
     /**
@@ -166,19 +164,19 @@ class World {
     runIntervals() {
         setStoppableInterval(() => {
             // Check jump on Enemies
-            this.checkJumpOnEnemies(this.level.enemies);
-            this.checkJumpOnEnemies(this.level.smallEnemies);
+            this.checkJumpOnEnemies(this.level.enemies, 100);
+            this.checkJumpOnEnemies(this.level.smallEnemies, 100);
             // Check Collisions Enemies
-            this.checkCollisionEnemies(this.level.enemies);
-            this.checkCollisionEnemies(this.level.smallEnemies);
-            this.checkCollissionEndboss();
+            this.checkCollisionEnemies(this.level.enemies, 1);
+            this.checkCollisionEnemies(this.level.smallEnemies, 1);
+            this.checkCollisionEnemies(this.level.endboss, 1.5);
         }, 1000 / 60);
 
         setStoppableInterval(() => {
             // Check Collisions Items
             this.collectItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
             this.collectItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
-            this.checkBottleHitsEndboss();
+            this.checkBottleHitsEnemies(this.level.endboss, 20);
         }, 100);
 
         setStoppableInterval(() => {
@@ -195,9 +193,9 @@ class World {
      * Checks when the game is over (different endings) and play a winning or lose sound.
      */
     checkGameEnd() {
-        if (this.endboss.isDead()) {
+        if (this.level.endboss[0].isDead()) {
             setTimeout(() => {
-                gameOverScreen();
+                gameOverScreen('game-over-screen');
                 this.background_sound.volume = 0;
                 this.winning_sound.play();
             }, 1000);
@@ -205,7 +203,7 @@ class World {
 
         if (this.character.isDead()) {
             setTimeout(() => {
-                youLoseScreen();
+                gameOverScreen('lose-screen');
                 this.background_sound.volume = 0;
                 this.losing_sound.play();
             }, 1000);
@@ -216,31 +214,36 @@ class World {
      * Check if a bottle hits the endboss.
      * Updated the status-life bar and life of the endboss.
      * Delete the bottle that hit the endboss after the setTimeout.
+     * @param {Object} enemyType - The array with enemies.
+     * @param {Number} damage - The damage-value.
      */
-    checkBottleHitsEndboss() {
+    checkBottleHitsEnemies(enemyType, damage) {
         this.throwableObject.forEach((bottle) => {
-            if (this.endboss.isColliding(bottle)) {
-                bottle.bottleHit = true;
+            enemyType.forEach((enemy) => {
+                if (enemy.isColliding(bottle)) {
+                    bottle.bottleHit = true;
+                    enemy.hit(damage);
+                    this.changeStatusBarProgress(this.statusBarEndboss, enemy.energy);
+                    this.killEnemy(enemy);
 
-                this.endboss.hit(20);
-                this.changeStatusBarProgress(this.statusBarEndboss, this.endboss.energy);
-                if (this.endboss.energy === 0) {
-                    this.killEnemy(this.endboss);
+                    setTimeout(() => {
+                        this.deleteCorrectObject(bottle, this.throwableObject);
+                    }, 80);
                 }
-                setTimeout(() => {
-                    this.deleteCorrectObject(bottle, this.throwableObject);
-                }, 80);
-            }
-        })
+            });
+        });
     }
 
     /**
      * Check if the character jump on an enemie,
      * Deletes the hit enemie after the setTimeout.
+     * @param {Object} enemyType - The array with enemies.
+     * @param {Number} damage - The damage-value.
      */
-    checkJumpOnEnemies(enemyType) {
+    checkJumpOnEnemies(enemyType, damage) {
         enemyType.forEach((enemy) => {
-            if (this.validateJumpOnEnemy(enemy)) {
+            if (this.canJumpOnEnemy(enemy)) {
+                enemy.hit(damage);
                 this.killEnemy(enemy);
 
                 setTimeout(() => {
@@ -250,7 +253,7 @@ class World {
         })
     }
 
-    validateJumpOnEnemy(enemy) {
+    canJumpOnEnemy(enemy) {
         return this.character.isColliding(enemy) && this.character.isFalling() && !enemy.dead;
     }
 
@@ -264,22 +267,23 @@ class World {
     }
 
     /**
-     * Kills the specified enemy by setting its energy to 0 (hit(100)) and marking it as dead.
+     * If the energy is 0 than kills the specified enemy and triggers the appropriate actions.
      * By marking it as dead, the character no longer takes any damage from the dead enemy.
      * @param {Object} enemy - The enemy who was killed.
      */
     killEnemy(enemy) {
-        this.chicken_sound.play();
-        enemy.speed = 0;
-        enemy.hit(100);
-        enemy.dead = true;
+        if (enemy.energy === 0) {
+            this.chicken_sound.play();
+            enemy.speed = 0;
+            enemy.dead = true;
+        }
     }
 
     /**
      * Check if the Character can throw a bottle.
      */
     checkThrowableObjects() {
-        if (this.keyboard.d && this.character.collectableBottles > 0 && !this.character.isDead()) {
+        if (this.canThrowBottle()) {
             this.throwBottle();
         }
     }
@@ -289,6 +293,10 @@ class World {
         this.throwableObject.push(bottle);
         this.character.collectableBottles -= 20;
         this.changeStatusBarProgress(this.statusBarBottle, this.character.collectableBottles);
+    }
+
+    canThrowBottle() {
+        return this.keyboard.d && this.character.collectableBottles > 0 && !this.character.isDead();
     }
 
 
@@ -302,7 +310,7 @@ class World {
      */
     collectItems(items, maxAmount, sound, statusBar, propertyType) {
         items.forEach((item, index) => {
-            if (this.character.isColliding(item) && this.character[propertyType] < maxAmount) {
+            if (this.canCollectItem(item, propertyType, maxAmount)) {
                 sound.play();
                 this.character[propertyType] += 20;
                 this.changeStatusBarProgress(statusBar, this.character[propertyType]);
@@ -311,21 +319,21 @@ class World {
         });
     }
 
-    /**
-     * Check collision with an enemy.
-     */
-    checkCollisionEnemies(enemyType) {
-        enemyType.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !enemy.dead) {
-                this.characterTakesDamage(1);
-            }
-        });
+    canCollectItem(item, propertyType, maxAmount) {
+        return this.character.isColliding(item) && this.character[propertyType] < maxAmount;
     }
 
-    checkCollissionEndboss() {
-        if (this.character.isColliding(this.endboss) && !this.endboss.dead) {
-            this.characterTakesDamage(1.5);
-        }
+    /**
+     * Check collision with an enemy.
+     * @param {Object} enemyType - The array with enemies.
+     * @param {Number} damage - The damage-value.
+     */
+    checkCollisionEnemies(enemyType, damage) {
+        enemyType.forEach((enemy) => {
+            if (this.character.isColliding(enemy) && !enemy.dead) {
+                this.characterTakesDamage(damage);
+            }
+        });
     }
 
     /**
