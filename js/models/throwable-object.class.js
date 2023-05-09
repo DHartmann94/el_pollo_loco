@@ -38,14 +38,14 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.speedY = 25;
+        this.speedY = 15;
         this.applyGravity();
         this.animate();
         setInterval(() => {
             if(this.otherDirection === true) {
-                this.posX -= 10;
+                this.posX -= 8;
             } else {
-                this.posX += 10;
+                this.posX += 8;
             }
         }, 20);
     }

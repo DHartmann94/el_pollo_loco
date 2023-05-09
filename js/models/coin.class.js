@@ -1,6 +1,6 @@
 class Coin extends MovableObject {
     posX; // constructor (level1.js)
-    posY = 150 - Math.random() * 140;
+    posY = 170 - Math.random() * 120;
     height = 170;
     width = 170;
     offset = {

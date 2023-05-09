@@ -59,6 +59,11 @@ h2 {
   background-color: black;
 }
 
+.fullscreen-size {
+  height: 100vh !important;
+  width: 100% !important;
+}
+
 .d-none {
   display: none;
 }
@@ -102,6 +107,7 @@ h2 {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
+
 .rotate-screen {
   position: absolute;
   top: 0;

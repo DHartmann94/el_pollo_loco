@@ -5,10 +5,10 @@ class Chicken extends MovableObject {
     width = 75;
     speed = 0.15 + Math.random() * 0.4;
     offset = {
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 10
+        top: 15,
+        right: 15,
+        bottom: 15,
+        left: 15
     };
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
