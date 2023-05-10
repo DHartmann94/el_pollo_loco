@@ -41,12 +41,12 @@ function clearAllIntervals() {
  * Displays the appropriate containers depending on the situation of the game.
  */
 function startGame() {
-    hideContainer('home-screen');
-    hideContainer('start-button');
-    showContainer('restart-button');
-    showContainer('pause-button');
-    showContainer('canvas');
-    showContainer('img-volume');
+    hideContainer('home-screen', 'd-none');
+    hideContainer('start-button', 'd-none');
+    showContainer('restart-button', 'd-none');
+    showContainer('pause-button', 'd-none');
+    showContainer('canvas', 'd-none');
+    showContainer('img-volume', 'd-none');
     init();
     showLoader();
 }
@@ -57,19 +57,19 @@ function startGame() {
  */
 function gameOverScreen(endingScreen) {
     clearAllIntervals();
-    hideContainer('canvas');
-    hideContainer('pause-button');
-    hideContainer('start-after-pause-button');
-    showContainer(endingScreen);
+    hideContainer('canvas', 'd-none');
+    hideContainer('pause-button', 'd-none');
+    hideContainer('start-after-pause-button', 'd-none');
+    showContainer(endingScreen, 'd-none');
 }
 
 function restartGame() {
-    hideLoader();
-    hideContainer('lose-screen');
-    hideContainer('game-over-screen');
-    hideContainer('start-after-pause-button');
-    showContainer('pause-button');
-    showContainer('canvas');
+    hideContainer('loader','loader-hidden');
+    hideContainer('lose-screen', 'd-none');
+    hideContainer('game-over-screen', 'd-none');
+    hideContainer('start-after-pause-button', 'd-none');
+    showContainer('pause-button', 'd-none');
+    showContainer('canvas', 'd-none');
     world.background_sound.pause();
     clearAllIntervals();
     init();
@@ -81,13 +81,13 @@ function restartGame() {
  */
 function toggleGamePause(pause) {
     if (pause) {
-        hideContainer('pause-button');
-        showContainer('start-after-pause-button');
+        hideContainer('pause-button', 'd-none');
+        showContainer('start-after-pause-button', 'd-none');
         pauseIntervals();
         world.background_sound.pause();
     } else {
-        showContainer('pause-button');
-        hideContainer('start-after-pause-button');
+        showContainer('pause-button', 'd-none');
+        hideContainer('start-after-pause-button', 'd-none');
         playIntervals();
         world.background_sound.play();
     }
@@ -111,20 +111,20 @@ function fullscreenOpenAndClose() {
     }
 }
 
-function closeFullscreen() {
-    hideFullscreenSize('canvas');
-    hideFullscreenSize('home-screen');
-    hideFullscreenSize('loader');
-    hideFullscreenSize('lose-screen');
-    hideFullscreenSize('game-over-screen');
+function openFullscreen() {
+    hideContainer('canvas', 'fullscreen-size');
+    hideContainer('home-screen', 'fullscreen-size');
+    hideContainer('loader', 'fullscreen-size');
+    hideContainer('lose-screen', 'fullscreen-size');
+    hideContainer('game-over-screen', 'fullscreen-size');
 }
 
-function openFullscreen() {
-    showFullscreenSize('canvas');
-    showFullscreenSize('home-screen');
-    showFullscreenSize('loader');
-    showFullscreenSize('lose-screen');
-    showFullscreenSize('game-over-screen');
+function closeFullscreen() {
+    showContainer('canvas', 'fullscreen-size');
+    showContainer('home-screen', 'fullscreen-size');
+    showContainer('loader', 'fullscreen-size');
+    showContainer('lose-screen', 'fullscreen-size');
+    showContainer('game-over-screen', 'fullscreen-size');
 }
 
 function enterFullscreen(element) {
@@ -185,17 +185,17 @@ function infoScreen() {
 function toggleVolume(boolean) {
     muteSound = boolean;
     world.volumeSounds();
-    hideContainer(boolean ? 'img-volume' : 'img-mute');
-    showContainer(boolean ? 'img-mute' : 'img-volume');
+    hideContainer(boolean ? 'img-volume' : 'img-mute', 'd-none');
+    showContainer(boolean ? 'img-mute' : 'img-volume', 'd-none');
 }
 
 /**
  * Shows a loader when you first start the game.
  */
 function showLoader() {
-    document.getElementById('loader').classList.remove('loader-hidden');
+    showContainer('loader', 'loader-hidden');
     setTimeout(() => {
-        document.getElementById('loader').classList.add('loader-hidden');
+        hideContainer('loader', 'loader-hidden');
     }, 1250);
 }
 
@@ -207,21 +207,21 @@ function checkMobile() {
         showMobileButton();
         portraitPhoneRotateMessage();
     } else {
-        hideContainer('rotate-screen');
+        hideContainer('rotate-screen', 'd-none');
         hideMobileButton();
     }
 }
 
 function showMobileButton() {
-    showContainer('responsive-button-container');
-    showContainer('responsive-button-container-two');
-    hideContainer('fullscreen-button-container');
+    showContainer('responsive-button-container', 'd-none');
+    showContainer('responsive-button-container-two', 'd-none');
+    hideContainer('fullscreen-button-container', 'd-none');
 }
 
 function hideMobileButton() {
-    showContainer('fullscreen-button-container');
-    hideContainer('responsive-button-container');
-    hideContainer('responsive-button-container-two');
+    showContainer('fullscreen-button-container', 'd-none');
+    hideContainer('responsive-button-container', 'd-none');
+    hideContainer('responsive-button-container-two', 'd-none');
 }
 
 /**
@@ -231,13 +231,13 @@ function portraitPhoneRotateMessage() {
     /*if (screen.orientation.type === 'portrait-primary') {
         showContainer('rotate-screen');
     } else {
-        hideContainer('rotate-screen');
+        hideContainer('rotate-screen', 'd-none');
     }*/
 
     if (window.matchMedia("(orientation: portrait)").matches) {
-        showContainer('rotate-screen');
+        showContainer('rotate-screen', 'd-none');
     } else {
-        hideContainer('rotate-screen');
+        hideContainer('rotate-screen', 'd-none');
     }
 }
 
@@ -264,22 +264,10 @@ window.addEventListener('resize', checkMobile);
  * Help-Functions
  * @param {String} id - The id to be changed.
  */
-function showContainer(id) {
-    document.getElementById(`${id}`).classList.remove('d-none');
+function showContainer(id, className) {
+    document.getElementById(`${id}`).classList.remove(className);
 }
 
-function hideContainer(id) {
-    document.getElementById(`${id}`).classList.add('d-none');
-}
-
-function showFullscreenSize(id) {
-    document.getElementById(`${id}`).classList.add('fullscreen-size');
-}
-
-function hideFullscreenSize(id) {
-    document.getElementById(`${id}`).classList.remove('fullscreen-size');
-}
-
-function hideLoader() {
-    document.getElementById('loader').classList.add('loader-hidden');
+function hideContainer(id, className) {
+    document.getElementById(`${id}`).classList.add(className);
 }

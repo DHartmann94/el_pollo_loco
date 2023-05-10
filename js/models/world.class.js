@@ -174,9 +174,11 @@ class World {
 
         setStoppableInterval(() => {
             // Check Collisions Items
-            this.collectItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
-            this.collectItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
+            this.checkCollisionItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
+            this.checkCollisionItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
             this.checkBottleHitsEnemies(this.level.endboss, 20);
+            this.checkBottleHitsEnemies(this.level.enemies, 100);
+            this.checkBottleHitsEnemies(this.level.smallEnemies, 100);
         }, 100);
 
         setStoppableInterval(() => {
@@ -223,8 +225,8 @@ class World {
                 if (enemy.isColliding(bottle)) {
                     bottle.bottleHit = true;
                     enemy.hit(damage);
-                    this.changeStatusBarProgress(this.statusBarEndboss, enemy.energy);
-                    this.killEnemy(enemy);
+                    this.changeStatusBarEndboss(enemyType, enemy);
+                    this.killEnemy(enemyType, enemy);
 
                     setTimeout(() => {
                         this.deleteCorrectObject(bottle, this.throwableObject);
@@ -232,6 +234,12 @@ class World {
                 }
             });
         });
+    }
+
+    changeStatusBarEndboss(enemyType, enemy) {
+        if (enemyType === this.level.endboss) {
+            this.changeStatusBarProgress(this.statusBarEndboss, enemy.energy);
+        }
     }
 
     /**
@@ -244,11 +252,7 @@ class World {
         enemyType.forEach((enemy) => {
             if (this.canJumpOnEnemy(enemy)) {
                 enemy.hit(damage);
-                this.killEnemy(enemy);
-
-                setTimeout(() => {
-                    this.deleteCorrectObject(enemy, enemyType);
-                }, 1000);
+                this.killEnemy(enemyType, enemy);
             }
         })
     }
@@ -269,14 +273,22 @@ class World {
     /**
      * If the energy is 0 than kills the specified enemy and triggers the appropriate actions.
      * By marking it as dead, the character no longer takes any damage from the dead enemy.
+     * @param {Object} enemyType - The array with enemies.
      * @param {Object} enemy - The enemy who was killed.
      */
-    killEnemy(enemy) {
+    killEnemy(enemyType, enemy) {
         if (enemy.energy === 0) {
             this.chicken_sound.play();
             enemy.speed = 0;
             enemy.dead = true;
+            setTimeout(() => {
+                this.deleteCorrectObject(enemy, enemyType);
+            }, 3000);
         }
+    }
+
+    canDeleteCorrectObject(enemyType) {
+        return enemyType === this.level.enemies || enemyType === this.level.smallEnemies;
     }
 
     /**
@@ -308,7 +320,7 @@ class World {
      * @param {Object} statusBar - The status bar to update.
      * @param {String} propertyType - The property of the character object to update.
      */
-    collectItems(items, maxAmount, sound, statusBar, propertyType) {
+    checkCollisionItems(items, maxAmount, sound, statusBar, propertyType) {
         items.forEach((item, index) => {
             if (this.canCollectItem(item, propertyType, maxAmount)) {
                 sound.play();
