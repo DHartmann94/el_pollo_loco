@@ -251,6 +251,7 @@ class World {
     checkJumpOnEnemies(enemyType, damage) {
         enemyType.forEach((enemy) => {
             if (this.canJumpOnEnemy(enemy)) {
+                this.character.bounceAfterJumpOnEnemy(enemy);
                 enemy.hit(damage);
                 this.killEnemy(enemyType, enemy);
             }
@@ -277,14 +278,20 @@ class World {
      * @param {Object} enemy - The enemy who was killed.
      */
     killEnemy(enemyType, enemy) {
-        if (enemy.energy === 0) {
+        if (this.canKillEnemy(enemy)) {
             this.chicken_sound.play();
             enemy.speed = 0;
             enemy.dead = true;
-            setTimeout(() => {
-                this.deleteCorrectObject(enemy, enemyType);
-            }, 3000);
+            if(this.canDeleteCorrectObject(enemyType)) {
+                setTimeout(() => {
+                    this.deleteCorrectObject(enemy, enemyType);
+                }, 2000);
+            }
         }
+    }
+
+    canKillEnemy(enemy) {
+        return enemy.energy === 0 && !enemy.dead;
     }
 
     canDeleteCorrectObject(enemyType) {
@@ -326,7 +333,7 @@ class World {
                 sound.play();
                 this.character[propertyType] += 20;
                 this.changeStatusBarProgress(statusBar, this.character[propertyType]);
-                items.splice(index, 1);
+                this.deleteCorrectObject(item, items);
             }
         });
     }

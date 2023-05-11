@@ -180,4 +180,9 @@ class Character extends MovableObject {
             return true;
         }
     }
+
+    bounceAfterJumpOnEnemy(enemy) {
+        this.posY = enemy.posY - this.height;
+        this.speedY = 15;
+    }
 }

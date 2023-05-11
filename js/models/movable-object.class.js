@@ -37,7 +37,7 @@ class MovableObject extends DrawableObject {
         if(this instanceof ThrowableObject) {
             return true;
         } else {
-            return this.posY < 170; //The falling should be stopped there.
+            return this.posY < 160; //The falling should be stopped there.
         }
     }
 
@@ -105,6 +105,6 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        this.speedY = 25;
+        this.speedY = 20;
     }
 }
