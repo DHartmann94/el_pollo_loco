@@ -1,4 +1,4 @@
-# el_pollo_loco
+# El Pollo Loco
 
 ## Game-Rules  
 In this 2D jump and run game, you play as the character "Pepe".  
