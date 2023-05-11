@@ -181,6 +181,10 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Bounces the character after jumping on an enemy.
+     * @param {Object} enemy - The enemy you jumped on.
+     */
     bounceAfterJumpOnEnemy(enemy) {
         this.posY = enemy.posY - this.height;
         this.speedY = 15;
