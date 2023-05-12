@@ -99,24 +99,21 @@ function toggleGamePause(pause) {
 function fullscreenOpenAndClose() {
     if (isFullscreenActive) {
         closeFullscreen();
-        document.querySelector('h1').classList.remove('d-none');
-        exitFullscreen();
-        isFullscreenActive = false;
     } else {
-        let fullscreen = document.getElementById('fullscreen');
         openFullscreen();
-        document.querySelector('h1').classList.add('d-none');
-        enterFullscreen(fullscreen);
-        isFullscreenActive = true;
     }
 }
 
 function openFullscreen() {
+    let fullscreen = document.getElementById('fullscreen');
     hideContainer('canvas', 'fullscreen-size');
     hideContainer('home-screen', 'fullscreen-size');
     hideContainer('loader', 'fullscreen-size');
     hideContainer('lose-screen', 'fullscreen-size');
     hideContainer('game-over-screen', 'fullscreen-size');
+    document.querySelector('h1').classList.add('d-none');
+    enterFullscreen(fullscreen);
+    isFullscreenActive = true;
 }
 
 function closeFullscreen() {
@@ -125,6 +122,9 @@ function closeFullscreen() {
     showContainer('loader', 'fullscreen-size');
     showContainer('lose-screen', 'fullscreen-size');
     showContainer('game-over-screen', 'fullscreen-size');
+    document.querySelector('h1').classList.remove('d-none');
+    exitFullscreen();
+    isFullscreenActive = false;
 }
 
 function enterFullscreen(element) {
@@ -215,7 +215,7 @@ function checkMobile() {
 function showMobileButton() {
     showContainer('responsive-button-container', 'd-none');
     showContainer('responsive-button-container-two', 'd-none');
-    hideContainer('fullscreen-button-container', 'd-none');
+    //hideContainer('fullscreen-button-container', 'd-none');
 }
 
 function hideMobileButton() {
@@ -250,12 +250,22 @@ function isMobileDevice() {
 }
 
 /**
+ * Checks if the fullscreen mode is active and closes it if the User change the orientationchange from landscape to portrait.
+ */
+function checkMobileIsFullscreen() {
+    if(isFullscreenActive = true) {
+        closeFullscreen();
+    }
+}
+
+/**
  * Adds event listeners for the 'orientationchange', 'load', and 'resize' events and calls the 'checkMobile' function.
  * @event orientationchange - Event fired when the orientation of the device changes.
  * @event load - Event fired when the page is finished loading.
  * @event resize - Event fired when the window is resized.
  * 
  */
+window.addEventListener('orientationchange', checkMobileIsFullscreen);
 window.addEventListener('orientationchange', checkMobile);
 window.addEventListener('load', checkMobile);
 window.addEventListener('resize', checkMobile);

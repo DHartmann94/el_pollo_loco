@@ -61,10 +61,6 @@ class ThrowableObject extends MovableObject {
     }
 
     bottleSplash() {
-        return this.posY > 260 || this.bottleHit;
-    }
-
-    bottleTouchGround() {
-        //return this.posY + this.height - this.offset.bottom > 330;
+        return this.posY > 275 || this.bottleHit;
     }
 }

@@ -186,7 +186,7 @@ class Character extends MovableObject {
      * @param {Object} enemy - The enemy you jumped on.
      */
     bounceAfterJumpOnEnemy(enemy) {
-        this.posY = enemy.posY - this.height;
+        //this.posY = enemy.posY - this.height;
         this.speedY = 15;
     }
 }

@@ -24,6 +24,7 @@ class World {
     ctx;
     camera_x; // Move camera position.
     otherDirection = false;
+    throwBottleAfterDelay = true;
 
 
     constructor(canvas) {
@@ -163,32 +164,37 @@ class World {
      */
     runIntervals() {
         setStoppableInterval(() => {
-            // Check jump on Enemies
-            this.checkJumpOnEnemies(this.level.enemies, 100);
-            this.checkJumpOnEnemies(this.level.smallEnemies, 100);
-            // Check Collisions Enemies
-            this.checkCollisionEnemies(this.level.enemies, 1);
-            this.checkCollisionEnemies(this.level.smallEnemies, 1);
-            this.checkCollisionEnemies(this.level.endboss, 1.5);
+            this.check60FPS();
         }, 1000 / 60);
 
         setStoppableInterval(() => {
-            // Check Collisions Items
-            this.checkCollisionItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
-            this.checkCollisionItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
-            this.checkBottleHitsEnemies(this.level.endboss, 20);
-            this.checkBottleHitsEnemies(this.level.enemies, 100);
-            this.checkBottleHitsEnemies(this.level.smallEnemies, 100);
-        }, 100);
-
-        setStoppableInterval(() => {
-            // Check Throw Bottle
-            this.checkThrowableObjects();
-        }, 100);
+            this.check100FPS();
+        }, 1000 / 100);
 
         setStoppableInterval(() => {
             this.checkGameEnd();
         }, 1000);
+    }
+
+    check60FPS() {
+        // Check jump on Enemies
+        this.checkJumpOnEnemies(this.level.enemies, 100);
+        this.checkJumpOnEnemies(this.level.smallEnemies, 100);
+        // Check Collisions Enemies
+        this.checkCollisionEnemies(this.level.enemies, 1);
+        this.checkCollisionEnemies(this.level.smallEnemies, 1);
+        this.checkCollisionEnemies(this.level.endboss, 1.5);
+        // Check Throw Bottle
+        this.checkThrowableObjects();
+    }
+
+    check100FPS() {
+        // Check Collisions Items
+        this.checkCollisionItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
+        this.checkCollisionItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
+        this.checkBottleHitsEnemies(this.level.endboss, 20);
+        this.checkBottleHitsEnemies(this.level.enemies, 100);
+        this.checkBottleHitsEnemies(this.level.smallEnemies, 100);
     }
 
     /**
@@ -282,7 +288,7 @@ class World {
             this.chicken_sound.play();
             enemy.speed = 0;
             enemy.dead = true;
-            if(this.canDeleteCorrectObject(enemyType)) {
+            if (this.canDeleteCorrectObject(enemyType)) {
                 setTimeout(() => {
                     this.deleteCorrectObject(enemy, enemyType);
                 }, 2000);
@@ -312,12 +318,19 @@ class World {
         this.throwableObject.push(bottle);
         this.character.collectableBottles -= 20;
         this.changeStatusBarProgress(this.statusBarBottle, this.character.collectableBottles);
+        this.throwBottleTimeout();
     }
 
     canThrowBottle() {
-        return this.keyboard.d && this.character.collectableBottles > 0 && !this.character.isDead();
+        return this.keyboard.d && this.character.collectableBottles > 0 && !this.character.isDead() && this.throwBottleAfterDelay;
     }
 
+    throwBottleTimeout() {
+        this.throwBottleAfterDelay = false;
+        setTimeout(() => {
+            this.throwBottleAfterDelay = true; // Reset the flag after the delay
+        }, 250);
+    }
 
     /**
      * Check the collision with a coin or bottle.

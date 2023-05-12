@@ -1,6 +1,6 @@
 class Chicken extends MovableObject {
     posX; // constructor (level1.js)
-    posY = 350;
+    posY = 355;
     height = 75;
     width = 75;
     speed = 0.15 + Math.random() * 0.4;
