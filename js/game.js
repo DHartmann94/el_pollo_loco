@@ -228,12 +228,6 @@ function hideMobileButton() {
  * Shows a message if the mobile-device is in the portrait-modus.
  */
 function portraitPhoneRotateMessage() {
-    /*if (screen.orientation.type === 'portrait-primary') {
-        showContainer('rotate-screen');
-    } else {
-        hideContainer('rotate-screen', 'd-none');
-    }*/
-
     if (window.matchMedia("(orientation: portrait)").matches) {
         showContainer('rotate-screen', 'd-none');
     } else {
@@ -246,7 +240,7 @@ function portraitPhoneRotateMessage() {
  * @returns {boolean} - true = is mobile
  */
 function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
 }
 
 /**
