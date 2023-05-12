@@ -14,4 +14,4 @@ Throw-Bottle: Press D.
 ## Built With  
 - HTML
 - CSS
-- JavaScript
+- JavaScript (Object-Oriented)
