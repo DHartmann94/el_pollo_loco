@@ -168,8 +168,8 @@ class World {
         }, 1000 / 60);
 
         setStoppableInterval(() => {
-            this.check100FPS();
-        }, 1000 / 100);
+            this.check100Milliseconds();
+        }, 100);
 
         setStoppableInterval(() => {
             this.checkGameEnd();
@@ -184,17 +184,17 @@ class World {
         this.checkCollisionEnemies(this.level.enemies, 1);
         this.checkCollisionEnemies(this.level.smallEnemies, 1);
         this.checkCollisionEnemies(this.level.endboss, 1.5);
-        // Check Throw Bottle
-        this.checkThrowableObjects();
     }
 
-    check100FPS() {
+    check100Milliseconds() {
         // Check Collisions Items
         this.checkCollisionItems(this.level.coins, 1000, this.coin_sound, this.statusBarCoin, 'collectableCoins');
         this.checkCollisionItems(this.level.bottles, 100, this.bottle_sound, this.statusBarBottle, 'collectableBottles');
         this.checkBottleHitsEnemies(this.level.endboss, 20);
         this.checkBottleHitsEnemies(this.level.enemies, 100);
         this.checkBottleHitsEnemies(this.level.smallEnemies, 100);
+        // Check Throw Bottle
+        this.checkThrowableObjects();
     }
 
     /**
