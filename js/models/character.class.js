@@ -69,7 +69,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png'
 
     ];
-    world; // damit können wir auf unsere Welt Variablen zugreifen (keyboard)
+    world;
     stopMovementTimer = 0;
 
     constructor() {
